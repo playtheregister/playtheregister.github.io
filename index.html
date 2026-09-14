@@ -166,37 +166,13 @@
   </div>
 </div>
 
+<script src="cities.js"></script>
 <script>
 /* Baskets built from Open Prices (prices.openfoodfacts.org), Sep 2026 pull.
    Local paper lines are fair place clues, not fake news spirals. */
-const CITIES = [
-  ["Tokyo", 35.68, 139.69], ["Hiroshima", 34.39, 132.46], ["Osaka", 34.69, 135.50],
-  ["Reykjavik", 64.15, -21.94], ["Paris", 48.86, 2.35], ["Grenoble", 45.19, 5.72],
-  ["Aachen", 50.78, 6.08], ["Berlin", 52.52, 13.40], ["Bangkok", 13.76, 100.50],
-  ["São Paulo", -23.55, -46.63], ["Curitiba", -25.43, -49.27], ["New York", 40.71, -74.01],
-  ["Los Altos", 37.39, -122.11], ["Huntington Station", 40.85, -73.41], ["Melbourne", -37.81, 144.96],
-  ["Brisbane", -27.47, 153.03], ["Sydney", -33.87, 151.21], ["Dubai", 25.20, 55.27],
-  ["Abu Dhabi", 24.45, 54.38], ["London", 51.51, -0.13], ["Vienna", 48.21, 16.37],
-  ["Lisbon", 38.72, -9.14], ["Madrid", 40.42, -3.70], ["Rome", 41.90, 12.50],
-  ["Milan", 45.46, 9.19], ["Amsterdam", 52.37, 4.89], ["Copenhagen", 55.68, 12.57],
-  ["Stockholm", 59.33, 18.07], ["Oslo", 59.91, 10.75], ["Helsinki", 60.17, 24.94],
-  ["Seoul", 37.57, 126.98], ["Taipei", 25.03, 121.57], ["Singapore", 1.35, 103.82],
-  ["Hong Kong", 22.32, 114.17], ["Mumbai", 19.08, 72.88], ["Delhi", 28.61, 77.21],
-  ["Mexico City", 19.43, -99.13], ["Buenos Aires", -34.60, -58.38], ["Lima", -12.05, -77.04],
-  ["Bogotá", 4.71, -74.07], ["Santiago", -33.45, -70.67], ["Cape Town", -33.92, 18.42],
-  ["Lagos", 6.52, 3.38], ["Nairobi", -1.29, 36.82], ["Cairo", 30.04, 31.24],
-  ["Istanbul", 41.01, 28.98], ["Athens", 37.98, 23.73], ["Toronto", 43.65, -79.38],
-  ["Vancouver", 49.28, -123.12], ["Chicago", 41.88, -87.63], ["Miami", 25.76, -80.19],
-  ["Los Angeles", 34.05, -118.24], ["San Francisco", 37.77, -122.42], ["Seattle", 47.61, -122.33],
-  ["Boston", 42.36, -71.06], ["Washington", 38.91, -77.04], ["Honolulu", 21.31, -157.86],
-  ["Auckland", -36.85, 174.76], ["Jakarta", -6.21, 106.85], ["Manila", 14.60, 120.98],
-  ["Hanoi", 21.03, 105.85], ["Ho Chi Minh City", 10.82, 106.63], ["Tel Aviv", 32.09, 34.78],
-  ["Beirut", 33.89, 35.50], ["Doha", 25.29, 51.53], ["Riyadh", 24.71, 46.68],
-  ["Dublin", 53.35, -6.26], ["Edinburgh", 55.95, -3.19], ["Brussels", 50.85, 4.35],
-  ["Munich", 48.14, 11.58], ["Hamburg", 53.55, 9.99], ["Frankfurt", 50.11, 8.68],
-  ["Zurich", 47.38, 8.54], ["Geneva", 46.20, 6.14], ["Prague", 50.08, 14.44],
-  ["Warsaw", 52.23, 21.01], ["Budapest", 47.50, 19.04], ["Belo Horizonte", -19.92, -43.94]
-];
+const CITIES = (window.REGISTER_CITIES && window.REGISTER_CITIES.length)
+  ? window.REGISTER_CITIES
+  : [["Tokyo",35.68,139.69],["Hiroshima",34.39,132.46],["Reykjavik",64.15,-21.94],["Bangkok",13.76,100.5],["São Paulo",-23.55,-46.63],["New York",40.71,-74.01],["Melbourne",-37.81,144.96],["Dubai",25.2,55.27],["Grenoble",45.19,5.72],["Aachen",50.78,6.08],["Paris",48.86,2.35],["London",51.51,-0.13]];
 
 const DAYS = {
   "2026-09-14": {
@@ -525,7 +501,7 @@ function suggestCities(q) {
     else return null;
     return { c, score };
   }).filter(Boolean).sort((a,b) => b.score - a.score || a.c[0].localeCompare(b.c[0]));
-  return scored.slice(0, 8).map(x => x.c);
+  return scored.slice(0, 12).map(x => x.c);
 }
 
 function heat(km) {
@@ -601,7 +577,7 @@ function render() {
     ${state.done ? "" : `
       <div class="guess-wrap"><div class="guess-box">
         <label for="city">Guess the city</label>
-        <input id="city" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" placeholder="Type a city" />
+        <input id="city" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" placeholder="Type any city" />
         <ul class="suggestions" id="suggestions"></ul>
         <div class="err" id="guessErr"></div>
         <button class="go" type="button" id="guessBtn">${left} left</button>
