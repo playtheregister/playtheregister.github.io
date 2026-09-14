@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: register-receipt-dispense-2026-09-14 -->
+<!-- pages-bust: register-receipt-spit-v3-2026-09-14 -->
 <meta name="description" content="A free daily puzzle: one local paper tip, one stranger's receipt in USD, guess the city. Six tries. Hotter or colder." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -300,11 +300,12 @@
       0 2px 8px rgba(0,0,0,.12),
       inset 0 0 40px rgba(210, 180, 120, 0.08);
     padding: 22px 14px 20px; position: relative;
+    /* fallback start pose; JS sets pixel translateY for reliable Chromium/Windows spit */
     transform: translate3d(0, -100%, 0);
     will-change: transform;
     transition:
-      transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      box-shadow 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform 3.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 3.4s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   .results-sheet.is-feeding {
     transform: translate3d(0, 0, 0);
@@ -411,11 +412,8 @@
     opacity: 0.45; cursor: default; pointer-events: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    .results-sheet {
-      transition: none !important;
-      transform: none !important;
-      will-change: auto;
-    }
+    /* Do not kill intentional Results receipt spit (.is-feeding / .is-printing).
+       Soften only non-print chrome so PC with OS "Show animations" off still gets the drama. */
     .print-status { transition: none !important; }
   }
   .results-kicker {
@@ -2084,7 +2082,7 @@ function renderResults() {
 }
 
 function printSeenKey() {
-  return "register-print-seen-v2-" + DAY;
+  return "register-print-seen-v3-" + DAY;
 }
 function hasSeenPrint() {
   try { return !!localStorage.getItem(printSeenKey()); } catch (e) { return false; }
@@ -2105,10 +2103,7 @@ function updateReplayPrintBtn() {
 function replayPrint() {
   if (!resultsOpen || printAnimating) return;
   clearPrintSeen();
-  startPrintFeed();
-}
-function prefersReduceMotion() {
-  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  startPrintFeed({ force: true });
 }
 
 function printerCapPx(printer) {
@@ -2142,6 +2137,8 @@ function finishPrint(instant) {
   if (!printer || !sheet) return;
   const target = printerTargetPx(printer, sheet);
   if (instant) printer.classList.add("instant");
+  sheet.style.transition = "";
+  sheet.style.transform = "";
   sheet.classList.add("is-feeding", "is-printed");
   printer.style.height = target + "px";
   void printer.offsetHeight;
@@ -2162,7 +2159,8 @@ function finishPrint(instant) {
   updateReplayPrintBtn();
 }
 
-function startPrintFeed() {
+function startPrintFeed(opts) {
+  opts = opts || {};
   const overlay = document.getElementById("results");
   const printer = document.getElementById("resultsPrinter");
   const sheet = document.getElementById("resultsSheet");
@@ -2173,7 +2171,11 @@ function startPrintFeed() {
 
   printer.classList.remove("printed", "instant");
   sheet.classList.remove("is-feeding", "is-printed");
-  const skip = hasSeenPrint() || prefersReduceMotion();
+  sheet.style.transition = "";
+  sheet.style.transform = "";
+  // Skip only if already seen today AND not forcing (Replay always forces).
+  // Do NOT hard-skip for prefers-reduced-motion — PC OS animation prefs were killing the spit.
+  const skip = !opts.force && hasSeenPrint();
   if (skip) {
     printAnimating = false;
     if (overlay) overlay.classList.remove("is-printing");
@@ -2199,23 +2201,33 @@ function startPrintFeed() {
   if (overlay) overlay.classList.add("is-printing");
   if (skipBtn) skipBtn.hidden = false;
   updateReplayPrintBtn();
-  // Clip opens to target height immediately; paper feeds via transform
+  // Clip height BEFORE measuring sheet / starting transform (Chromium Windows reliability)
   printer.style.height = printerTargetPx(printer, sheet) + "px";
+  void printer.offsetHeight;
   if (status) {
     status.textContent = "PRINTING";
     status.classList.add("show");
   }
-  // Force starting pose (hidden above slot), then feed down
+  // Pixel translateY so %-of-self / same-frame height quirks don't no-op the spit
+  const spitMs = 3400;
+  const spitEase = "cubic-bezier(0.22, 0.61, 0.36, 1)";
   sheet.classList.remove("is-feeding", "is-printed");
+  const h = Math.max(1, sheet.offsetHeight);
+  sheet.style.transition = "none";
+  sheet.style.transform = "translate3d(0, -" + h + "px, 0)";
   void sheet.offsetHeight;
   requestAnimationFrame(() => {
     if (!printAnimating) return;
     requestAnimationFrame(() => {
       if (!printAnimating) return;
+      sheet.style.transition =
+        "transform " + (spitMs / 1000) + "s " + spitEase +
+        ", box-shadow " + (spitMs / 1000) + "s " + spitEase;
+      sheet.style.transform = "translate3d(0, 0, 0)";
       sheet.classList.add("is-feeding");
     });
   });
-  printTimer = setTimeout(() => finishPrint(false), 2050);
+  printTimer = setTimeout(() => finishPrint(false), spitMs + 50);
 }
 
 function skipPrintFeed() {
