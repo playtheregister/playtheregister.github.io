@@ -98,7 +98,8 @@
   .ok { color: var(--ok); }
   .share {
     margin-top: 16px; padding: 14px; border: 1px solid #cbb996; background: var(--paper2);
-    font-family: ui-monospace, Menlo, monospace; font-size: 16px; text-align: center; border-radius: 8px;
+    font-family: ui-monospace, Menlo, monospace; font-size: 15px; text-align: left;
+    border-radius: 8px; white-space: pre-line; line-height: 1.55;
   }
   .fine { margin-top: 28px; font-size: 11px; color: var(--muted); line-height: 1.45; }
   .fine a { color: var(--tip); }
@@ -720,13 +721,22 @@ function streakMessage() {
   return "Start a streak tomorrow";
 }
 
-function scoreDots(n, won, max) {
-  const filled = won ? n : max;
-  return "●".repeat(filled) + "○".repeat(Math.max(0, max - filled));
+function heatEmoji(g) {
+  if (g.ok) return "✅";
+  const map = { burning: "🔥", hot: "🌶️", warm: "🌡️", cold: "❄️", freezing: "🧊" };
+  return map[heat(g.km).key] || "🧊";
+}
+
+function shareDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return months[m - 1] + " " + d;
 }
 
 function shareText() {
-  return "Tab " + num + "  " + scoreDots(state.guesses.length, state.won, 6);
+  const strip = (state.guesses || []).map(heatEmoji).join("");
+  const score = state.won ? (state.guesses.length + "/6") : "X/6";
+  return "The Register · " + shareDate(DAY) + "\n" + strip + "\n" + score + "\nhttps://franciscoperdomopr-del.github.io/the-register/";
 }
 
 const DAY = todayKey();
