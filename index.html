@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: results-print-2026-09-14 -->
+<!-- pages-bust: results-print-feed-v2-2026-09-14 -->
 <meta name="description" content="A free daily puzzle: one local paper tip, one stranger's receipt in USD, guess the city. Six tries. Hotter or colder." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -215,20 +215,40 @@
   }
   .results-slot {
     flex: 0 0 auto;
-    height: 16px; border-radius: 999px; background: #141210;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,.65);
-    margin: 0 18px; position: relative; z-index: 2;
+    height: 22px; border-radius: 999px;
+    margin: 2px 14px 0; position: relative; z-index: 4;
+    background:
+      linear-gradient(180deg, #050403 0%, #12100e 45%, #1a1714 70%, #0a0908 100%);
+    box-shadow:
+      inset 0 5px 12px rgba(0,0,0,.92),
+      inset 0 -2px 3px rgba(255,255,255,.05),
+      0 1px 0 rgba(255,255,255,.04);
+  }
+  .results-slot::before {
+    content: ""; position: absolute; left: -8px; right: -8px; top: -5px; bottom: -5px;
+    border-radius: 999px; z-index: -1;
+    background: linear-gradient(180deg, #3f3830 0%, #2a2620 48%, #1c1915 100%);
+    box-shadow:
+      0 2px 6px rgba(0,0,0,.45),
+      inset 0 1px 0 rgba(255,255,255,.08);
+  }
+  .results-slot::after {
+    content: ""; position: absolute; left: 10%; right: 10%; top: 42%; height: 2px;
+    border-radius: 2px; background: rgba(0,0,0,.55);
+    box-shadow: 0 1px 0 rgba(255,255,255,.04);
   }
   .results-printer {
     overflow: hidden; height: 0;
     max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 108px);
-    transition: height 1.35s cubic-bezier(.2,.8,.2,1);
-    margin-top: -8px;
+    margin-top: -12px;
     min-height: 0;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    position: relative; z-index: 1;
   }
-  .results-printer.instant { transition: none !important; }
+  .results-printer.instant .results-sheet {
+    transition: none !important;
+  }
   .results-printer.printed {
     overflow-x: hidden;
     overflow-y: auto;
@@ -236,19 +256,44 @@
   .results-sheet {
     width: auto; max-width: none; margin: 0 12px; background: var(--paper);
     border-radius: 0 0 10px 10px; border: none;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    padding: 28px 20px 26px; position: relative;
+    transform: translate3d(0, -100%, 0);
+    will-change: transform;
+    transition:
+      transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .results-sheet.is-feeding {
+    transform: translate3d(0, 0, 0);
+    box-shadow: 0 16px 40px rgba(0,0,0,.34);
+  }
+  .results-sheet.is-printed {
+    transform: none;
+    will-change: auto;
+    transition: none;
     box-shadow: 0 12px 30px rgba(0,0,0,.28);
-    padding: 24px 20px 26px; position: relative;
-    transform: translateY(-8px);
   }
   .results-sheet:before {
-    content: ""; position: absolute; left: 8px; right: 8px; top: 0; height: 6px;
-    background: radial-gradient(circle, transparent 2.5px, var(--paper) 3px) 0 0 / 9px 6px repeat-x;
+    content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 10px;
+    background:
+      radial-gradient(circle at 5px 2px, transparent 3.2px, var(--paper) 3.4px) -1px 0 / 10px 10px repeat-x;
+    pointer-events: none;
+  }
+  .results-sheet:after {
+    content: ""; position: absolute; left: 6px; right: 6px; top: 9px; height: 1px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 4px,
+      rgba(180, 150, 110, 0.35) 4px 5px
+    );
+    pointer-events: none;
   }
   .results-sheet .go,
   .results-sheet .ghost {
     min-height: 48px; touch-action: manipulation;
   }
-  .print-status-wrap { text-align: center; margin: 2px 0 12px; }
+  .print-status-wrap { text-align: center; margin: 0 0 14px; }
   .print-status {
     display: inline-block; background: var(--tip); color: #fff;
     font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -268,7 +313,11 @@
   }
   .print-skip[hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) {
-    .results-printer { transition: none !important; }
+    .results-sheet {
+      transition: none !important;
+      transform: none !important;
+      will-change: auto;
+    }
     .print-status { transition: none !important; }
   }
   .results-kicker {
@@ -340,12 +389,13 @@
     }
     .results-stage { max-width: none; width: 100%; max-height: 100%; }
     .results-frame { border-radius: 12px; padding: 12px 8px 14px; }
-    .results-slot { margin: 0 10px; }
+    .results-slot { margin: 2px 8px 0; height: 20px; }
+    .results-slot::before { left: -6px; right: -6px; top: -4px; bottom: -4px; }
     .results-printer {
       max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 92px);
+      margin-top: -11px;
     }
-    .results-sheet { margin: 0 4px; padding: 20px 14px 22px; border-radius: 0 0 8px 8px; }
-    .results-sheet:before { display: none; }
+    .results-sheet { margin: 0 4px; padding: 26px 14px 22px; border-radius: 0 0 8px 8px; }
     .results-headline { font-size: 28px; }
     .print-skip { min-height: 48px; font-size: 14px; }
   }
@@ -1800,7 +1850,6 @@ function shareDate(iso) {
   return months[m - 1] + " " + d;
 }
 
-/* share-url-build 2026-09-14T17:05Z */
 function shareText() {
   const strip = (state.guesses || []).map(heatEmoji).join("");
   const score = state.won ? (state.guesses.length + "/6") : "X/6";
@@ -1885,6 +1934,7 @@ function renderResults() {
   }).join("");
 
   document.getElementById("resultsSheet").innerHTML = `
+    <div class="print-status-wrap"><span class="print-status" id="printStatus">Printing</span></div>
     <div class="results-kicker">Final results</div>
     <h2 class="results-headline ${state.won ? "win" : "lose"}">${headline}</h2>
     <p class="results-sub">${sub}</p>
@@ -1901,8 +1951,6 @@ function renderResults() {
       <h3>Crowd</h3>
       <div id="crowdBlock">${crowdHTML()}</div>
     </div>
-
-    <div class="print-status-wrap"><span class="print-status" id="printStatus">Printing</span></div>
 
     <div class="results-block city-card">
       <h3>Today's city</h3>
@@ -1923,7 +1971,7 @@ function renderResults() {
 }
 
 function printSeenKey() {
-  return "register-print-seen-" + DAY;
+  return "register-print-seen-v2-" + DAY;
 }
 function hasSeenPrint() {
   try { return !!localStorage.getItem(printSeenKey()); } catch (e) { return false; }
@@ -1965,11 +2013,10 @@ function finishPrint(instant) {
   if (overlay) overlay.classList.remove("is-printing");
   if (!printer || !sheet) return;
   const target = printerTargetPx(printer, sheet);
-  if (instant) {
-    printer.classList.add("instant");
-    printer.style.height = target + "px";
-    void printer.offsetHeight;
-  }
+  if (instant) printer.classList.add("instant");
+  sheet.classList.add("is-feeding", "is-printed");
+  printer.style.height = target + "px";
+  void printer.offsetHeight;
   printer.classList.add("printed");
   // Cap + internal scroll when content taller than viewport
   if (sheet.scrollHeight > printerCapPx(printer) + 1) {
@@ -1995,12 +2042,14 @@ function startPrintFeed() {
   if (!printer || !sheet) return;
   if (printTimer) { clearTimeout(printTimer); printTimer = null; }
 
-  printer.classList.remove("printed");
+  printer.classList.remove("printed", "instant");
+  sheet.classList.remove("is-feeding", "is-printed");
   const skip = hasSeenPrint() || prefersReduceMotion();
   if (skip) {
     printAnimating = false;
     if (overlay) overlay.classList.remove("is-printing");
     printer.classList.add("instant");
+    sheet.classList.add("is-feeding", "is-printed");
     printer.classList.add("printed");
     if (sheet.scrollHeight > printerCapPx(printer) + 1) {
       printer.style.height = printerCapPx(printer) + "px";
@@ -2019,18 +2068,23 @@ function startPrintFeed() {
   printAnimating = true;
   if (overlay) overlay.classList.add("is-printing");
   if (skipBtn) skipBtn.hidden = false;
-  printer.classList.remove("instant");
-  printer.style.height = "0px";
+  // Clip opens to target height immediately; paper feeds via transform
+  printer.style.height = printerTargetPx(printer, sheet) + "px";
   if (status) {
     status.textContent = "Printing";
     status.classList.add("show");
   }
-  void printer.offsetHeight;
+  // Force starting pose (hidden above slot), then feed down
+  sheet.classList.remove("is-feeding", "is-printed");
+  void sheet.offsetHeight;
   requestAnimationFrame(() => {
     if (!printAnimating) return;
-    printer.style.height = printerTargetPx(printer, sheet) + "px";
+    requestAnimationFrame(() => {
+      if (!printAnimating) return;
+      sheet.classList.add("is-feeding");
+    });
   });
-  printTimer = setTimeout(() => finishPrint(false), 1400);
+  printTimer = setTimeout(() => finishPrint(false), 2050);
 }
 
 function skipPrintFeed() {
@@ -2057,10 +2111,17 @@ function hideResults() {
   if (printTimer) { clearTimeout(printTimer); printTimer = null; }
   printAnimating = false;
   const overlay = document.getElementById("results");
+  const printer = document.getElementById("resultsPrinter");
+  const sheet = document.getElementById("resultsSheet");
   if (overlay) {
     overlay.hidden = true;
     overlay.classList.remove("is-printing");
   }
+  if (printer) {
+    printer.classList.remove("printed", "instant");
+    printer.style.height = "";
+  }
+  if (sheet) sheet.classList.remove("is-feeding", "is-printed");
   setResultsScrollLock(false);
   render();
 }
