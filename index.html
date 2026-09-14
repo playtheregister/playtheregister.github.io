@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: register-receipt-spit-v3-2026-09-14 -->
+<!-- pages-bust: register-receipt-spit-waapi-v4-2026-09-14 -->
 <meta name="description" content="A free daily puzzle: one local paper tip, one stranger's receipt in USD, guess the city. Six tries. Hotter or colder." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -111,9 +111,16 @@
   .hot { color: var(--hot); }
   .ok { color: var(--ok); }
   .share {
-    margin-top: 16px; padding: 14px; border: 1px solid #cbb996; background: var(--paper2);
-    font-family: ui-monospace, Menlo, monospace; font-size: 15px; text-align: left;
+    margin-top: 16px; padding: 12px; border: 1px solid #cbb996; background: var(--paper2);
+    font-family: ui-monospace, Menlo, monospace; font-size: 13px; text-align: left;
     border-radius: 8px; white-space: pre-line; line-height: 1.55;
+    max-width: 100%; overflow: hidden;
+    overflow-wrap: anywhere; word-break: break-all;
+  }
+  .results-sheet .share {
+    font-size: 12px; padding: 10px;
+    max-width: 100%; overflow: hidden;
+    overflow-wrap: anywhere; word-break: break-all;
   }
   .fine { margin-top: 28px; font-size: 11px; color: var(--muted); line-height: 1.45; }
   .fine a { color: var(--tip); }
@@ -300,15 +307,13 @@
       0 2px 8px rgba(0,0,0,.12),
       inset 0 0 40px rgba(210, 180, 120, 0.08);
     padding: 22px 14px 20px; position: relative;
-    /* fallback start pose; JS sets pixel translateY for reliable Chromium/Windows spit */
+    /* start pose; motion driven by WAAPI / rAF (not CSS transition — Windows mutes those) */
     transform: translate3d(0, -100%, 0);
     will-change: transform;
-    transition:
-      transform 3.4s cubic-bezier(0.22, 0.61, 0.36, 1),
-      box-shadow 3.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition: none;
   }
   .results-sheet.is-feeding {
-    transform: translate3d(0, 0, 0);
+    /* transform set by WAAPI/rAF; box-shadow updates with class */
     box-shadow:
       0 10px 28px rgba(0,0,0,.32),
       0 2px 0 rgba(0,0,0,.06),
@@ -1966,7 +1971,10 @@ let crowdPct = null;
 let crowdStatus = "loading"; // loading | ready | empty
 let crowdTimer = null;
 let printTimer = null;
+let printAnim = null; // WAAPI Animation or rAF handle object
+let printRafId = 0;
 let printAnimating = false;
+let printFeedStartedAt = 0;
 
 document.getElementById("dateline").textContent = fmtDate(DAY);
 
@@ -2077,12 +2085,16 @@ function renderResults() {
   const back = document.getElementById("backToTab");
   if (back) back.onclick = () => hideResults();
   const replay = document.getElementById("replayPrint");
-  if (replay) replay.onclick = () => replayPrint();
+  if (replay) replay.onclick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    replayPrint();
+  };
   updateReplayPrintBtn();
 }
 
 function printSeenKey() {
-  return "register-print-seen-v3-" + DAY;
+  return "register-print-seen-v4-" + DAY;
 }
 function hasSeenPrint() {
   try { return !!localStorage.getItem(printSeenKey()); } catch (e) { return false; }
@@ -2125,19 +2137,32 @@ function setResultsScrollLock(on) {
   document.body.style.overflow = on ? "hidden" : "";
 }
 
+function cancelPrintMotion() {
+  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+  if (printRafId) { cancelAnimationFrame(printRafId); printRafId = 0; }
+  if (printAnim) {
+    try { printAnim.cancel(); } catch (e) {}
+    printAnim = null;
+  }
+  const sheet = document.getElementById("resultsSheet");
+  if (sheet && sheet.getAnimations) {
+    try { sheet.getAnimations().forEach(a => a.cancel()); } catch (e) {}
+  }
+}
+
 function finishPrint(instant) {
   const overlay = document.getElementById("results");
   const printer = document.getElementById("resultsPrinter");
   const sheet = document.getElementById("resultsSheet");
   const status = document.getElementById("printStatus");
   const skipBtn = document.getElementById("printSkip");
-  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+  cancelPrintMotion();
   printAnimating = false;
   if (overlay) overlay.classList.remove("is-printing");
   if (!printer || !sheet) return;
   const target = printerTargetPx(printer, sheet);
   if (instant) printer.classList.add("instant");
-  sheet.style.transition = "";
+  sheet.style.transition = "none";
   sheet.style.transform = "";
   sheet.classList.add("is-feeding", "is-printed");
   printer.style.height = target + "px";
@@ -2167,11 +2192,11 @@ function startPrintFeed(opts) {
   const status = document.getElementById("printStatus");
   const skipBtn = document.getElementById("printSkip");
   if (!printer || !sheet) return;
-  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+  cancelPrintMotion();
 
   printer.classList.remove("printed", "instant");
   sheet.classList.remove("is-feeding", "is-printed");
-  sheet.style.transition = "";
+  sheet.style.transition = "none";
   sheet.style.transform = "";
   // Skip only if already seen today AND not forcing (Replay always forces).
   // Do NOT hard-skip for prefers-reduced-motion — PC OS animation prefs were killing the spit.
@@ -2198,6 +2223,7 @@ function startPrintFeed(opts) {
   }
 
   printAnimating = true;
+  printFeedStartedAt = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
   if (overlay) overlay.classList.add("is-printing");
   if (skipBtn) skipBtn.hidden = false;
   updateReplayPrintBtn();
@@ -2208,26 +2234,52 @@ function startPrintFeed(opts) {
     status.textContent = "PRINTING";
     status.classList.add("show");
   }
-  // Pixel translateY so %-of-self / same-frame height quirks don't no-op the spit
+  // Drive spit with WAAPI (or rAF) — CSS transitions are muted on some Windows configs
   const spitMs = 3400;
   const spitEase = "cubic-bezier(0.22, 0.61, 0.36, 1)";
   sheet.classList.remove("is-feeding", "is-printed");
   const h = Math.max(1, sheet.offsetHeight);
+  const from = "translate3d(0, -" + h + "px, 0)";
+  const to = "translate3d(0, 0, 0)";
   sheet.style.transition = "none";
-  sheet.style.transform = "translate3d(0, -" + h + "px, 0)";
+  sheet.style.transform = from;
   void sheet.offsetHeight;
-  requestAnimationFrame(() => {
-    if (!printAnimating) return;
-    requestAnimationFrame(() => {
+  sheet.classList.add("is-feeding");
+
+  const runRafFeed = () => {
+    const t0 = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    const step = (now) => {
       if (!printAnimating) return;
-      sheet.style.transition =
-        "transform " + (spitMs / 1000) + "s " + spitEase +
-        ", box-shadow " + (spitMs / 1000) + "s " + spitEase;
-      sheet.style.transform = "translate3d(0, 0, 0)";
-      sheet.classList.add("is-feeding");
-    });
-  });
-  printTimer = setTimeout(() => finishPrint(false), spitMs + 50);
+      const t = Math.min(1, (now - t0) / spitMs);
+      // approximate cubic-bezier(0.22, 0.61, 0.36, 1) with ease-out cubic
+      const e = 1 - Math.pow(1 - t, 3);
+      const y = -h * (1 - e);
+      sheet.style.transform = "translate3d(0, " + y + "px, 0)";
+      if (t < 1) {
+        printRafId = requestAnimationFrame(step);
+      } else {
+        printRafId = 0;
+        finishPrint(false);
+      }
+    };
+    printRafId = requestAnimationFrame(step);
+  };
+
+  if (typeof sheet.animate === "function") {
+    try {
+      printAnim = sheet.animate(
+        [{ transform: from }, { transform: to }],
+        { duration: spitMs, easing: spitEase, fill: "forwards" }
+      );
+      printAnim.onfinish = () => { if (printAnimating) finishPrint(false); };
+      printAnim.oncancel = () => {};
+    } catch (err) {
+      printAnim = null;
+      runRafFeed();
+    }
+  } else {
+    runRafFeed();
+  }
 }
 
 function skipPrintFeed() {
@@ -2251,7 +2303,7 @@ function showResults(opts) {
 
 function hideResults() {
   resultsOpen = false;
-  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+  cancelPrintMotion();
   printAnimating = false;
   const overlay = document.getElementById("results");
   const printer = document.getElementById("resultsPrinter");
@@ -2264,7 +2316,11 @@ function hideResults() {
     printer.classList.remove("printed", "instant");
     printer.style.height = "";
   }
-  if (sheet) sheet.classList.remove("is-feeding", "is-printed");
+  if (sheet) {
+    sheet.classList.remove("is-feeding", "is-printed");
+    sheet.style.transform = "";
+    sheet.style.transition = "none";
+  }
   setResultsScrollLock(false);
   render();
 }
@@ -2416,7 +2472,15 @@ resultsEl.addEventListener("pointermove", (e) => {
 resultsEl.addEventListener("click", (e) => {
   if (!printAnimating) return;
   if (printTouchMoved) return;
-  if (e.target.closest("button") || e.target.closest("a") || e.target.closest("#share")) return;
+  const now = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+  if (now - printFeedStartedAt < 180) return; // ignore same click that opened Replay / Results
+  if (
+    e.target.closest("button") ||
+    e.target.closest("a") ||
+    e.target.closest("#share") ||
+    e.target.closest(".replay-print") ||
+    e.target.closest(".share")
+  ) return;
   skipPrintFeed();
 });
 const printSkipBtn = document.getElementById("printSkip");
