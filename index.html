@@ -150,15 +150,15 @@
     <div class="streak" id="streak"></div>
   </header>
   <div id="game"></div>
-  <p class="fine">One daily: a real basket plus one local paper line. Prices stay in the city's own currency and are never converted to dollars. We only hide the symbol. Puzzle, not a newspaper. Not financial advice. Credit: <a href="https://prices.openfoodfacts.org" target="_blank" rel="noopener">Open Prices</a>.</p>
+  <p class="fine">One daily: a real basket plus one local paper line. Prices are converted to USD from the city's local currency so every receipt is comparable. Puzzle, not a newspaper. Not financial advice. Credit: <a href="https://prices.openfoodfacts.org" target="_blank" rel="noopener">Open Prices</a>.</p>
 </div>
 
 <div class="overlay" id="help" hidden>
   <div class="card">
     <div class="mast" style="margin-bottom:8px">Tonight's paper</div>
     <h2>You're holding a stranger's tab</h2>
-    <p>One Tip from the local paper. One receipt with the currency mark ripped off. Somewhere in the world, that was lunch.</p>
-    <p><strong>The numbers never get converted.</strong> Whatever they paid locally is what you see. Yen stays yen-sized. Places that use cents keep decimals. We only hide the symbol.</p>
+    <p>One Tip from the local paper. One receipt converted into dollars. Somewhere in the world, that was lunch.</p>
+    <p><strong>Every price is shown in USD.</strong> Real local baskets from Open Prices, auto-exchanged so a snack in Tokyo and a snack in São Paulo read on the same scale.</p>
     <p>Two wrong guesses and the tab becomes <strong>lunch</strong>. Two more and it becomes <strong>dinner with a drink</strong>, something that actually belongs to that city.</p>
     <p><strong>Guess the city.</strong> Six tries. Hotter or colder. No map.</p>
     
@@ -168,127 +168,156 @@
 
 <script src="cities.js"></script>
 <script>
-/* Baskets built from Open Prices (prices.openfoodfacts.org), Sep 2026 pull.
+/* Baskets from Open Prices (prices.openfoodfacts.org), Sep 2026 pull, converted to USD.
    Local paper lines are fair place clues, not fake news spirals. */
 const CITIES = (window.REGISTER_CITIES && window.REGISTER_CITIES.length)
   ? window.REGISTER_CITIES
   : [["Tokyo",35.68,139.69],["Hiroshima",34.39,132.46],["Reykjavik",64.15,-21.94],["Bangkok",13.76,100.5],["São Paulo",-23.55,-46.63],["New York",40.71,-74.01],["Melbourne",-37.81,144.96],["Dubai",25.2,55.27],["Grenoble",45.19,5.72],["Aachen",50.78,6.08],["Paris",48.86,2.35],["London",51.51,-0.13]];
 
 const DAYS = {
+  "2026-09-13": {
+    city: "Aachen",
+    currency: "USD",
+    paper: "Sunday crowd still circles the old cathedral square.",
+    why: "The cathedral was the fair clue. Dinner was a printen town night.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "rewe basket",
+        lines: [["edamame", "1.96"], ["chickpeas", "0.92"], ["hummus pine nuts", "1.96"], ["banana yogurt", "0.80"], ["decaffeinated coffee", "11.61"], ["spelt bread", "2.89"]],
+        total: "20.14",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "market stall",
+        lines: [["sausage in a bun", "5.23"], ["pils, small", "3.72"]],
+        total: "8.95",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "brauhaus",
+        lines: [["sauerbraten plate", "21.96"], ["kölsch", "4.41"], ["schnaps", "5.23"]],
+        total: "31.60",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
   "2026-09-14": {
     city: "Hiroshima",
-    currency: "JPY",
+    currency: "USD",
     paper: "Morning walkers still gather at the peace park by the river before the heat.",
     why: "Local-style savory pancake for dinner. The park and the tab both pointed here.",
     stages: [
       {
         label: "convenience",
         shop: "convenience aisle",
-        lines: [["camembert cheese bites", "297"], ["string cheese", "152"], ["blueberry yogurt", "181"], ["cocoa bran snack", "194"]],
-        total: "824",
-        source: "real prices · currency mark removed"
+        lines: [["camembert cheese bites", "1.93"], ["string cheese", "0.99"], ["blueberry yogurt", "1.18"], ["cocoa bran snack", "1.26"]],
+        total: "5.36",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "counter lunch",
-        lines: [["pork-egg-soba okonomiyaki", "960"], ["oolong tea", "400"]],
-        total: "1360",
-        source: "real prices · currency mark removed"
+        lines: [["pork-egg-soba okonomiyaki", "6.23"], ["oolong tea", "2.60"]],
+        total: "8.83",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "teppan dinner",
-        lines: [["shrimp okonomiyaki", "1310"], ["draft beer, medium", "580"], ["local sake, small", "550"]],
-        total: "2440",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["shrimp okonomiyaki", "8.50"], ["draft beer, medium", "3.77"], ["local sake, small", "3.57"]],
+        total: "15.84",
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-15": {
     city: "Reykjavik",
-    currency: "ISK",
+    currency: "USD",
     paper: "The tall concrete church still owns the skyline over the harbour.",
     why: "The church was the fair clue. Dinner was harbour fish and a pint.",
     stages: [
       {
         label: "convenience",
         shop: "corner grocer",
-        lines: [["health juice", "370"], ["blueberry cordial", "589"], ["tropical juice", "479"]],
-        total: "1438",
-        source: "real prices · currency mark removed"
+        lines: [["health juice", "3.05"], ["blueberry cordial", "4.86"], ["tropical juice", "3.95"]],
+        total: "11.86",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "harbour stand",
-        lines: [["hot dog", "890"], ["soda", "450"]],
-        total: "1340",
-        source: "real prices · currency mark removed"
+        lines: [["hot dog", "7.34"], ["soda", "3.71"]],
+        total: "11.05",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "harbour kitchen",
-        lines: [["fish and chips", "4290"], ["local lager, pint", "1690"]],
-        total: "5980",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["fish and chips", "35.39"], ["local lager, pint", "13.94"]],
+        total: "49.33",
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-16": {
     city: "Bangkok",
-    currency: "THB",
+    currency: "USD",
     paper: "The elevated train over the wet shopping strip slowed again after the rain.",
     why: "The Skytrain was the fair clue. Dinner was street noodles and a beer.",
     stages: [
       {
         label: "convenience",
         shop: "7-counter",
-        lines: [["triple macarons creamy", "45"], ["shredded cheese blend", "209"], ["emmental block", "235"], ["pistachio milk", "23"]],
-        total: "512",
-        source: "real prices · currency mark removed"
+        lines: [["triple macarons creamy", "1.37"], ["shredded cheese blend", "6.35"], ["emmental block", "7.15"], ["pistachio milk", "0.70"]],
+        total: "15.57",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "soi stall",
-        lines: [["pad thai", "60"], ["iced tea", "20"]],
-        total: "80",
-        source: "real prices · currency mark removed"
+        lines: [["pad thai", "1.82"], ["iced tea", "0.61"]],
+        total: "2.43",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "night stall",
-        lines: [["boat noodles", "80"], ["grilled pork skewer", "40"], ["Chang, small bottle", "70"]],
-        total: "190",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["boat noodles", "2.43"], ["grilled pork skewer", "1.22"], ["Chang, small bottle", "2.13"]],
+        total: "5.78",
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-17": {
     city: "São Paulo",
-    currency: "BRL",
+    currency: "USD",
     paper: "The yellow metro line jammed before the derby crowd spilled out.",
     why: "The metro derby line was the fair clue. Dinner was a chopp and a plate.",
     stages: [
       {
         label: "convenience",
         shop: "atacado lane",
-        lines: [["golden flaxseed 200g", "6.55"], ["black pepper 50g", "13.99"], ["thyme flakes", "3.59"], ["integral rice", "6.98"], ["fresh milk 1L", "6.89"]],
-        total: "38.00",
-        source: "real prices · currency mark removed"
+        lines: [["golden flaxseed 200g", "1.28"], ["black pepper 50g", "2.73"], ["thyme flakes", "0.70"], ["integral rice", "1.36"], ["fresh milk 1L", "1.35"]],
+        total: "7.42",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "padaria",
-        lines: [["pão de queijo, six", "18.00"], ["cafezinho", "6.00"], ["guaraná, glass", "8.00"]],
-        total: "32.00",
-        source: "real prices · currency mark removed"
+        lines: [["pão de queijo, six", "3.52"], ["cafezinho", "1.17"], ["guaraná, glass", "1.56"]],
+        total: "6.25",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "boteco",
-        lines: [["coxinha, two", "24.00"], ["chopp, draft", "16.00"], ["cachaça, shot", "12.00"]],
-        total: "52.00",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["coxinha, two", "4.69"], ["chopp, draft", "3.13"], ["cachaça, shot", "2.34"]],
+        total: "10.16",
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-18": {
@@ -302,140 +331,111 @@ const DAYS = {
         shop: "warehouse sample",
         lines: [["mac & cheese", "10.99"], ["tonkotsu ramen", "9.29"], ["shrimp chips", "8.99"], ["sweet & spicy puffs", "7.69"]],
         total: "36.96",
-        source: "real prices · currency mark removed"
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "corner slice",
         lines: [["plain slice", "3.50"], ["fountain soda", "2.00"]],
         total: "5.50",
-        source: "real prices · currency mark removed"
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "late counter",
         lines: [["pepperoni slice", "4.50"], ["brooklyn lager", "8.00"], ["whiskey shot", "10.00"]],
         total: "22.50",
-        source: "real prices · currency mark removed"
-      }
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-19": {
     city: "Melbourne",
-    currency: "AUD",
+    currency: "USD",
     paper: "The coastal tram was still packed after the match.",
     why: "The tram number was the fair clue. Dinner was a parma and a pint.",
     stages: [
       {
         label: "convenience",
         shop: "suburban market",
-        lines: [["smooth peanut butter", "5.95"], ["vanilla custard", "4.55"], ["wild pink salmon", "3.20"], ["orange juice", "2.50"], ["mango drink", "3.10"]],
-        total: "19.30",
-        source: "real prices · currency mark removed"
+        lines: [["smooth peanut butter", "4.29"], ["vanilla custard", "3.28"], ["wild pink salmon", "2.31"], ["orange juice", "1.80"], ["mango drink", "2.23"]],
+        total: "13.91",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "cafe counter",
-        lines: [["chicken parma", "26.00"], ["pot of lager", "6.50"]],
-        total: "32.50",
-        source: "real prices · currency mark removed"
+        lines: [["chicken parma", "18.74"], ["pot of lager", "4.69"]],
+        total: "23.43",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "pub dinner",
-        lines: [["chicken parma", "28.00"], ["pint", "14.00"], ["house wine, glass", "11.00"]],
-        total: "53.00",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["chicken parma", "20.19"], ["pint", "10.09"], ["house wine, glass", "7.93"]],
+        total: "38.21",
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-20": {
     city: "Dubai",
-    currency: "AED",
+    currency: "USD",
     paper: "The metro to the big mall by the ski slope is still the weekend default.",
     why: "The metro stop was the fair clue. Dinner was a mixed grill and a mocktail, or a hotel pint.",
     stages: [
       {
         label: "convenience",
         shop: "fresh counter",
-        lines: [["caramel crêpes", "11.99"], ["chocolate crêpes", "10.99"], ["hibiscus tea chilled", "19.95"], ["mango passion pop", "9.50"]],
-        total: "52.43",
-        source: "real prices · currency mark removed"
+        lines: [["caramel crêpes", "3.26"], ["chocolate crêpes", "2.99"], ["hibiscus tea chilled", "5.43"], ["mango passion pop", "2.59"]],
+        total: "14.27",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "cafeteria",
-        lines: [["chicken shawarma", "18.00"], ["laban", "6.00"]],
-        total: "24.00",
-        source: "real prices · currency mark removed"
+        lines: [["chicken shawarma", "4.90"], ["laban", "1.63"]],
+        total: "6.53",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "grill",
-        lines: [["mixed grill plate", "75.00"], ["fresh juice", "18.00"], ["hotel lager", "35.00"]],
-        total: "128.00",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["mixed grill plate", "20.42"], ["fresh juice", "4.90"], ["hotel lager", "9.53"]],
+        total: "34.85",
+        source: "real prices · converted to USD"
+      },
     ]
   },
   "2026-09-21": {
     city: "Grenoble",
-    currency: "EUR",
+    currency: "USD",
     paper: "The university tram still fills before lectures.",
     why: "The tram letter was the fair clue. Dinner was alpine-city bistro.",
     stages: [
       {
         label: "convenience",
         shop: "bio aisle",
-        lines: [["sheep yogurt 4-pack", "3.50"], ["soy drink 1L", "0.88"], ["coconut rice drink", "1.49"], ["cassoulet tray", "3.90"], ["olive oil", "12.21"]],
-        total: "21.98",
-        source: "real prices · currency mark removed"
+        lines: [["sheep yogurt 4-pack", "4.07"], ["soy drink 1L", "1.02"], ["coconut rice drink", "1.73"], ["cassoulet tray", "4.53"], ["olive oil", "14.19"]],
+        total: "25.54",
+        source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "formule midi",
-        lines: [["plat du jour", "14.50"], ["espresso", "1.50"]],
-        total: "16.00",
-        source: "real prices · currency mark removed"
+        lines: [["plat du jour", "16.85"], ["espresso", "1.74"]],
+        total: "18.59",
+        source: "real prices · converted to USD"
       },
       {
         label: "dinner",
         shop: "bistro",
-        lines: [["tartiflette", "19.00"], ["vin de savoie, glass", "6.50"], ["génépi", "7.00"]],
-        total: "32.50",
-        source: "real prices · currency mark removed"
-      }
+        lines: [["tartiflette", "22.07"], ["vin de savoie, glass", "7.55"], ["génépi", "8.13"]],
+        total: "37.75",
+        source: "real prices · converted to USD"
+      },
     ]
   },
-  "2026-09-13": {
-    city: "Aachen",
-    currency: "EUR",
-    paper: "Sunday crowd still circles the old cathedral square.",
-    why: "The cathedral was the fair clue. Dinner was a printen town night.",
-    stages: [
-      {
-        label: "convenience",
-        shop: "rewe basket",
-        lines: [["edamame", "1.69"], ["chickpeas", "0.79"], ["hummus pine nuts", "1.69"], ["banana yogurt", "0.69"], ["decaffeinated coffee", "9.99"], ["spelt bread", "2.49"]],
-        total: "17.34",
-        source: "real prices · currency mark removed"
-      },
-      {
-        label: "lunch",
-        shop: "market stall",
-        lines: [["sausage in a bun", "4.50"], ["pils, small", "3.20"]],
-        total: "7.70",
-        source: "real prices · currency mark removed"
-      },
-      {
-        label: "dinner",
-        shop: "brauhaus",
-        lines: [["sauerbraten plate", "18.90"], ["kölsch", "3.80"], ["schnaps", "4.50"]],
-        total: "27.20",
-        source: "real prices · currency mark removed"
-      }
-    ]
-  }
 };
 
 const KEY = "register-v5";
@@ -474,9 +474,7 @@ function reportPlay() {
 
 function money(n, code) {
   const x = Number(n);
-  const zero = ["JPY","KRW","ISK","VND","CLP"];
-  if (zero.includes(code)) return String(Math.round(x));
-  return x.toFixed(2);
+  return "$" + x.toFixed(2);
 }
 
 
@@ -695,9 +693,9 @@ const help = document.getElementById("help");
 document.getElementById("helpOpen").onclick = () => { help.hidden = false; };
 document.getElementById("helpClose").onclick = () => {
   help.hidden = true;
-  localStorage.setItem(KEY + "-helped-v7", "1");
+  localStorage.setItem(KEY + "-helped-v8", "1");
 };
-if (!localStorage.getItem(KEY + "-helped-v7")) help.hidden = false;
+if (!localStorage.getItem(KEY + "-helped-v8")) help.hidden = false;
 
 render();
 </script>
