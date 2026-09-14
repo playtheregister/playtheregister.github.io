@@ -736,7 +736,7 @@ function shareDate(iso) {
 function shareText() {
   const strip = (state.guesses || []).map(heatEmoji).join("");
   const score = state.won ? (state.guesses.length + "/6") : "X/6";
-  return "The Register · " + shareDate(DAY) + "\n" + strip + "\n" + score + "\nhttps://franciscoperdomopr-del.github.io/the-register/";
+  return "The Register · " + shareDate(DAY) + "\n" + strip + "\n" + score + "\nhttps://playtheregister.github.io/";
 }
 
 const DAY = todayKey();
