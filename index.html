@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: results-print-feed-v2-2026-09-14 -->
+<!-- pages-bust: results-replay-print-2026-09-14 -->
 <meta name="description" content="A free daily puzzle: one local paper tip, one stranger's receipt in USD, guess the city. Six tries. Hotter or colder." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -312,6 +312,19 @@
     touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
   .print-skip[hidden] { display: none !important; }
+  .results-actions {
+    display: flex; flex-direction: column; gap: 8px; margin-top: 0;
+  }
+  .results-sheet .replay-print {
+    margin-top: 0; min-height: 48px;
+    border-color: #b7a789; color: var(--muted);
+    font-size: 15px;
+  }
+  .results-sheet .replay-print:hover { color: var(--ink); border-color: var(--ink); }
+  .results-sheet .replay-print[hidden] { display: none !important; }
+  .results-sheet .replay-print:disabled {
+    opacity: 0.45; cursor: default; pointer-events: none;
+  }
   @media (prefers-reduced-motion: reduce) {
     .results-sheet {
       transition: none !important;
@@ -398,6 +411,7 @@
     .results-sheet { margin: 0 4px; padding: 26px 14px 22px; border-radius: 0 0 8px 8px; }
     .results-headline { font-size: 28px; }
     .print-skip { min-height: 48px; font-size: 14px; }
+    .results-sheet .replay-print { min-height: 48px; }
   }
 </style>
 </head>
@@ -1961,13 +1975,19 @@ function renderResults() {
       <p style="margin:8px 0 0;font-size:14px;color:var(--muted)">${P.why}</p>
     </div>
 
-    <button class="ghost" type="button" id="backToTab">Back to today's tab</button>
+    <div class="results-actions">
+      <button class="ghost" type="button" id="backToTab">Back to today's tab</button>
+      <button class="ghost replay-print" type="button" id="replayPrint" hidden>Replay print</button>
+    </div>
   `;
 
   const cb = document.getElementById("copyBtn");
   if (cb) cb.onclick = copyShare;
   const back = document.getElementById("backToTab");
   if (back) back.onclick = () => hideResults();
+  const replay = document.getElementById("replayPrint");
+  if (replay) replay.onclick = () => replayPrint();
+  updateReplayPrintBtn();
 }
 
 function printSeenKey() {
@@ -1978,6 +1998,21 @@ function hasSeenPrint() {
 }
 function markPrintSeen() {
   try { localStorage.setItem(printSeenKey(), "1"); } catch (e) {}
+}
+function clearPrintSeen() {
+  try { localStorage.removeItem(printSeenKey()); } catch (e) {}
+}
+function updateReplayPrintBtn() {
+  const btn = document.getElementById("replayPrint");
+  if (!btn) return;
+  const show = resultsOpen && !printAnimating;
+  btn.hidden = !show;
+  btn.disabled = !show;
+}
+function replayPrint() {
+  if (!resultsOpen || printAnimating) return;
+  clearPrintSeen();
+  startPrintFeed();
 }
 function prefersReduceMotion() {
   return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -2031,6 +2066,7 @@ function finishPrint(instant) {
   }
   if (skipBtn) skipBtn.hidden = true;
   markPrintSeen();
+  updateReplayPrintBtn();
 }
 
 function startPrintFeed() {
@@ -2062,12 +2098,14 @@ function startPrintFeed() {
     }
     if (skipBtn) skipBtn.hidden = true;
     markPrintSeen();
+    updateReplayPrintBtn();
     return;
   }
 
   printAnimating = true;
   if (overlay) overlay.classList.add("is-printing");
   if (skipBtn) skipBtn.hidden = false;
+  updateReplayPrintBtn();
   // Clip opens to target height immediately; paper feeds via transform
   printer.style.height = printerTargetPx(printer, sheet) + "px";
   if (status) {
