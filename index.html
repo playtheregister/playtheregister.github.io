@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
+<!-- pages-bust: results-print-2026-09-14 -->
 <meta name="description" content="A free daily puzzle: one local paper tip, one stranger's receipt in USD, guess the city. Six tries. Hotter or colder." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -184,22 +185,91 @@
   .heat-banner.heat-freezing { background: linear-gradient(135deg, #64748b, #1e3a5f); }
   .heat-banner.heat-ok { background: linear-gradient(135deg, #4ade80, #2f6d4f); }
 
-  /* Final Results overlay */
+  /* Final Results overlay — paper-feed / receipt print (mobile + PC) */
   .results-overlay {
-    position: fixed; inset: 0; z-index: 30; background: rgba(26,24,20,0.82);
-    display: flex; align-items: stretch; justify-content: center; padding: 12px;
-    overflow: auto; -webkit-overflow-scrolling: touch;
+    position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 30; width: 100%;
+    height: 100%; min-height: 100dvh;
+    background: rgba(26,24,20,0.9);
+    display: flex; align-items: center; justify-content: center;
+    padding:
+      max(12px, env(safe-area-inset-top, 0px))
+      max(12px, env(safe-area-inset-right, 0px))
+      max(12px, env(safe-area-inset-bottom, 0px))
+      max(12px, env(safe-area-inset-left, 0px));
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .results-overlay[hidden] { display: none !important; }
+  .results-overlay.is-printing { cursor: pointer; }
+  .results-stage {
+    width: 100%; max-width: 460px; max-height: 100%;
+    margin: 0 auto; display: flex; flex-direction: column; min-height: 0;
+  }
+  .results-frame {
+    background: #2a2620; border-radius: 16px; padding: 16px 14px 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column;
+  }
+  .results-slot {
+    flex: 0 0 auto;
+    height: 16px; border-radius: 999px; background: #141210;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.65);
+    margin: 0 18px; position: relative; z-index: 2;
+  }
+  .results-printer {
+    overflow: hidden; height: 0;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 108px);
+    transition: height 1.35s cubic-bezier(.2,.8,.2,1);
+    margin-top: -8px;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .results-printer.instant { transition: none !important; }
+  .results-printer.printed {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
   .results-sheet {
-    width: 100%; max-width: 520px; margin: auto; background: var(--paper);
-    border-radius: 12px; border: 2px solid var(--ink);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-    padding: 28px 24px 36px; position: relative;
+    width: auto; max-width: none; margin: 0 12px; background: var(--paper);
+    border-radius: 0 0 10px 10px; border: none;
+    box-shadow: 0 12px 30px rgba(0,0,0,.28);
+    padding: 24px 20px 26px; position: relative;
+    transform: translateY(-8px);
   }
   .results-sheet:before {
-    content: ""; position: absolute; left: 10px; right: 10px; top: -4px; height: 8px;
-    background: radial-gradient(circle, transparent 3px, var(--paper) 3.5px) 0 0 / 10px 8px repeat-x;
+    content: ""; position: absolute; left: 8px; right: 8px; top: 0; height: 6px;
+    background: radial-gradient(circle, transparent 2.5px, var(--paper) 3px) 0 0 / 9px 6px repeat-x;
+  }
+  .results-sheet .go,
+  .results-sheet .ghost {
+    min-height: 48px; touch-action: manipulation;
+  }
+  .print-status-wrap { text-align: center; margin: 2px 0 12px; }
+  .print-status {
+    display: inline-block; background: var(--tip); color: #fff;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px;
+    font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700;
+    opacity: 0; transition: opacity .25s ease;
+  }
+  .print-status.show { opacity: 1; }
+  .print-skip {
+    flex: 0 0 auto;
+    display: block; width: 100%; max-width: 280px; margin: 8px auto 0;
+    background: transparent; border: 0;
+    color: #a89b88; font-size: 13px; letter-spacing: 0.06em; cursor: pointer;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    min-height: 44px; padding: 10px 14px;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
+  .print-skip[hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .results-printer { transition: none !important; }
+    .print-status { transition: none !important; }
   }
   .results-kicker {
     font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; text-align: center;
@@ -260,9 +330,24 @@
     body { padding: 0; }
     .frame { border-radius: 0; min-height: 100dvh; padding: 20px 16px 28px; }
     .receipt:before, .receipt:after { display: none; }
-    .results-sheet { border-radius: 0; min-height: 100%; margin: 0; }
+    .results-overlay {
+      align-items: center;
+      padding:
+        max(8px, env(safe-area-inset-top, 0px))
+        max(8px, env(safe-area-inset-right, 0px))
+        max(8px, env(safe-area-inset-bottom, 0px))
+        max(8px, env(safe-area-inset-left, 0px));
+    }
+    .results-stage { max-width: none; width: 100%; max-height: 100%; }
+    .results-frame { border-radius: 12px; padding: 12px 8px 14px; }
+    .results-slot { margin: 0 10px; }
+    .results-printer {
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 92px);
+    }
+    .results-sheet { margin: 0 4px; padding: 20px 14px 22px; border-radius: 0 0 8px 8px; }
     .results-sheet:before { display: none; }
-    .results-overlay { padding: 0; }
+    .results-headline { font-size: 28px; }
+    .print-skip { min-height: 48px; font-size: 14px; }
   }
 </style>
 </head>
@@ -293,7 +378,15 @@
 </div>
 
 <div class="results-overlay" id="results" hidden>
-  <div class="results-sheet" id="resultsSheet"></div>
+  <div class="results-stage">
+    <div class="results-frame">
+      <div class="results-slot" aria-hidden="true"></div>
+      <div class="results-printer" id="resultsPrinter">
+        <div class="results-sheet" id="resultsSheet"></div>
+      </div>
+    </div>
+    <button type="button" class="print-skip" id="printSkip" hidden>Skip</button>
+  </div>
 </div>
 
 <script src="cities.js"></script>
@@ -1723,6 +1816,8 @@ let justGuessed = false;
 let crowdPct = null;
 let crowdStatus = "loading"; // loading | ready | empty
 let crowdTimer = null;
+let printTimer = null;
+let printAnimating = false;
 
 document.getElementById("dateline").textContent = fmtDate(DAY);
 
@@ -1758,6 +1853,14 @@ function crowdHTML() {
 function updateCrowdUI() {
   const el = document.getElementById("crowdBlock");
   if (el) el.innerHTML = crowdHTML();
+  const printer = document.getElementById("resultsPrinter");
+  const sheet = document.getElementById("resultsSheet");
+  if (!printer || !sheet || !resultsOpen) return;
+  if (printAnimating) {
+    printer.style.height = printerTargetPx(printer, sheet) + "px";
+  } else if (printer.classList.contains("printed") && sheet.scrollHeight > printerCapPx(printer) + 1) {
+    printer.style.height = printerCapPx(printer) + "px";
+  }
 }
 
 function heatBannerHTML(g, pulse) {
@@ -1799,6 +1902,8 @@ function renderResults() {
       <div id="crowdBlock">${crowdHTML()}</div>
     </div>
 
+    <div class="print-status-wrap"><span class="print-status" id="printStatus">Printing</span></div>
+
     <div class="results-block city-card">
       <h3>Today's city</h3>
       <div class="city-name">${P.city}</div>
@@ -1817,11 +1922,130 @@ function renderResults() {
   if (back) back.onclick = () => hideResults();
 }
 
+function printSeenKey() {
+  return "register-print-seen-" + DAY;
+}
+function hasSeenPrint() {
+  try { return !!localStorage.getItem(printSeenKey()); } catch (e) { return false; }
+}
+function markPrintSeen() {
+  try { localStorage.setItem(printSeenKey(), "1"); } catch (e) {}
+}
+function prefersReduceMotion() {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function printerCapPx(printer) {
+  if (!printer) return Math.floor(window.innerHeight * 0.75);
+  const mh = getComputedStyle(printer).maxHeight;
+  const n = parseFloat(mh);
+  if (mh && mh !== "none" && !isNaN(n) && n > 0) return n;
+  return Math.max(220, Math.floor(window.innerHeight * 0.75));
+}
+
+function printerTargetPx(printer, sheet) {
+  const cap = printerCapPx(printer);
+  const need = sheet ? sheet.scrollHeight : cap;
+  return Math.max(0, Math.min(need, cap));
+}
+
+function setResultsScrollLock(on) {
+  document.documentElement.style.overflow = on ? "hidden" : "";
+  document.body.style.overflow = on ? "hidden" : "";
+}
+
+function finishPrint(instant) {
+  const overlay = document.getElementById("results");
+  const printer = document.getElementById("resultsPrinter");
+  const sheet = document.getElementById("resultsSheet");
+  const status = document.getElementById("printStatus");
+  const skipBtn = document.getElementById("printSkip");
+  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+  printAnimating = false;
+  if (overlay) overlay.classList.remove("is-printing");
+  if (!printer || !sheet) return;
+  const target = printerTargetPx(printer, sheet);
+  if (instant) {
+    printer.classList.add("instant");
+    printer.style.height = target + "px";
+    void printer.offsetHeight;
+  }
+  printer.classList.add("printed");
+  // Cap + internal scroll when content taller than viewport
+  if (sheet.scrollHeight > printerCapPx(printer) + 1) {
+    printer.style.height = printerCapPx(printer) + "px";
+  } else {
+    printer.style.height = "auto";
+  }
+  printer.classList.remove("instant");
+  if (status) {
+    status.textContent = "Printed";
+    status.classList.add("show");
+  }
+  if (skipBtn) skipBtn.hidden = true;
+  markPrintSeen();
+}
+
+function startPrintFeed() {
+  const overlay = document.getElementById("results");
+  const printer = document.getElementById("resultsPrinter");
+  const sheet = document.getElementById("resultsSheet");
+  const status = document.getElementById("printStatus");
+  const skipBtn = document.getElementById("printSkip");
+  if (!printer || !sheet) return;
+  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+
+  printer.classList.remove("printed");
+  const skip = hasSeenPrint() || prefersReduceMotion();
+  if (skip) {
+    printAnimating = false;
+    if (overlay) overlay.classList.remove("is-printing");
+    printer.classList.add("instant");
+    printer.classList.add("printed");
+    if (sheet.scrollHeight > printerCapPx(printer) + 1) {
+      printer.style.height = printerCapPx(printer) + "px";
+    } else {
+      printer.style.height = "auto";
+    }
+    if (status) {
+      status.textContent = "Printed";
+      status.classList.add("show");
+    }
+    if (skipBtn) skipBtn.hidden = true;
+    markPrintSeen();
+    return;
+  }
+
+  printAnimating = true;
+  if (overlay) overlay.classList.add("is-printing");
+  if (skipBtn) skipBtn.hidden = false;
+  printer.classList.remove("instant");
+  printer.style.height = "0px";
+  if (status) {
+    status.textContent = "Printing";
+    status.classList.add("show");
+  }
+  void printer.offsetHeight;
+  requestAnimationFrame(() => {
+    if (!printAnimating) return;
+    printer.style.height = printerTargetPx(printer, sheet) + "px";
+  });
+  printTimer = setTimeout(() => finishPrint(false), 1400);
+}
+
+function skipPrintFeed() {
+  if (!printAnimating) return;
+  finishPrint(true);
+}
+
 function showResults(opts) {
   opts = opts || {};
   resultsOpen = true;
   renderResults();
-  document.getElementById("results").hidden = false;
+  const overlay = document.getElementById("results");
+  overlay.hidden = false;
+  setResultsScrollLock(true);
+  startPrintFeed();
   fetchWinrate();
   if (crowdTimer) clearTimeout(crowdTimer);
   // Refresh once so this player's finish is more likely included
@@ -1830,7 +2054,14 @@ function showResults(opts) {
 
 function hideResults() {
   resultsOpen = false;
-  document.getElementById("results").hidden = true;
+  if (printTimer) { clearTimeout(printTimer); printTimer = null; }
+  printAnimating = false;
+  const overlay = document.getElementById("results");
+  if (overlay) {
+    overlay.hidden = true;
+    overlay.classList.remove("is-printing");
+  }
+  setResultsScrollLock(false);
   render();
 }
 
@@ -1971,6 +2202,42 @@ function selectShare() {
   const r = document.createRange(); r.selectNodeContents(el);
   const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
 }
+
+const resultsEl = document.getElementById("results");
+let printTouchMoved = false;
+resultsEl.addEventListener("pointerdown", () => { printTouchMoved = false; }, { passive: true });
+resultsEl.addEventListener("pointermove", (e) => {
+  if (e.pointerType === "touch" || e.pointerType === "pen") printTouchMoved = true;
+}, { passive: true });
+resultsEl.addEventListener("click", (e) => {
+  if (!printAnimating) return;
+  if (printTouchMoved) return;
+  if (e.target.closest("button") || e.target.closest("a") || e.target.closest("#share")) return;
+  skipPrintFeed();
+});
+const printSkipBtn = document.getElementById("printSkip");
+if (printSkipBtn) {
+  printSkipBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    skipPrintFeed();
+  });
+}
+window.addEventListener("resize", () => {
+  if (!resultsOpen) return;
+  const printer = document.getElementById("resultsPrinter");
+  const sheet = document.getElementById("resultsSheet");
+  if (!printer || !sheet) return;
+  if (printAnimating) {
+    printer.style.height = printerTargetPx(printer, sheet) + "px";
+  } else if (printer.classList.contains("printed")) {
+    if (sheet.scrollHeight > printerCapPx(printer) + 1) {
+      printer.style.height = printerCapPx(printer) + "px";
+    } else {
+      printer.style.height = "auto";
+    }
+  }
+});
 
 const help = document.getElementById("help");
 document.getElementById("helpOpen").onclick = () => { help.hidden = false; };
