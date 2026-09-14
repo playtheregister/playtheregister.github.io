@@ -439,6 +439,37 @@ const DAYS = {
 };
 
 const KEY = "register-v5";
+const SB_URL = "https://iaurnwcjipzergycbqfp.supabase.co";
+const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhdXJud2NqaXB6ZXJneWNicWZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzOTc0NTYsImV4cCI6MjEwNDk3MzQ1Nn0.qHCkDyKdWLDtmu0ixqarRZLlf4-cWRWfT6qWH26ryDU";
+function playerId() {
+  let id = localStorage.getItem("register-player");
+  if (!id) { id = (crypto.randomUUID && crypto.randomUUID()) || String(Math.random()).slice(2); localStorage.setItem("register-player", id); }
+  return id;
+}
+function reportPlay() {
+  const flag = "register-sent-" + DAY;
+  if (localStorage.getItem(flag)) return;
+  const last = state.guesses[state.guesses.length - 1];
+  fetch(SB_URL + "/rest/v1/plays", {
+    method: "POST",
+    headers: {
+      apikey: SB_ANON,
+      Authorization: "Bearer " + SB_ANON,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal"
+    },
+    body: JSON.stringify({
+      puzzle_date: DAY,
+      won: !!state.won,
+      guesses: state.guesses.length,
+      guessed_city: last ? last.name : null,
+      answer_city: P.city,
+      stage: P.stages[stageIndex(state)].label,
+      player_id: playerId()
+    })
+  }).then(r => { if (r.ok) localStorage.setItem(flag, "1"); }).catch(() => {});
+}
+
 
 
 function money(n, code) {
@@ -644,6 +675,7 @@ function guessCity() {
     state.won = ok;
   }
   saveState(DAY, state);
+  if (state.done) reportPlay();
   render();
 }
 
