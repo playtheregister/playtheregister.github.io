@@ -16,6 +16,10 @@
     --ok: #2f6d4f;
     --hot: #c2410c;
     --tip: #8a1f14;
+    --burning: #9a3412;
+    --warm: #b45309;
+    --cold: #3b6ea5;
+    --freezing: #1e3a5f;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; background:
@@ -79,7 +83,17 @@
   .go:hover { background: #3a3228; }
   .ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
   .log { list-style: none; padding: 0; margin: 14px 0 0; }
-  .log li { font-size: 15px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+  .log li {
+    font-size: 15px; padding: 10px 12px; margin: 0 0 6px; border-radius: 6px;
+    border-left: 5px solid var(--rule); background: rgba(255,255,255,0.35);
+  }
+  .log li.heat-burning { border-left-color: var(--burning); background: #ffedd5; color: var(--burning); }
+  .log li.heat-hot { border-left-color: var(--hot); background: #ffedd5; color: var(--hot); }
+  .log li.heat-warm { border-left-color: var(--warm); background: #fef3c7; color: #92400e; }
+  .log li.heat-cold { border-left-color: var(--cold); background: #dbeafe; color: var(--cold); }
+  .log li.heat-freezing { border-left-color: var(--freezing); background: #e0e7ff; color: var(--freezing); }
+  .log li.heat-ok { border-left-color: var(--ok); background: #dcfce7; color: var(--ok); }
+  .log li.latest { box-shadow: 0 0 0 2px rgba(36,31,24,0.12); font-weight: 600; }
   .hot { color: var(--hot); }
   .ok { color: var(--ok); }
   .share {
@@ -133,15 +147,113 @@
   .suggestions li:last-child { border-bottom: 0; }
   .suggestions li:active, .suggestions li.active { background: #f3e8d4; }
   .err { color: var(--hot); font-size: 14px; margin-top: 8px; min-height: 1.2em; }
+
+  /* Heat feedback banner */
+  .heat-banner {
+    margin: 14px 0 0; padding: 16px 18px; border-radius: 10px; color: #fff;
+    font-family: ui-sans-serif, system-ui, sans-serif; box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border: 2px solid rgba(0,0,0,0.08);
+  }
+  .heat-banner.pulse { animation: heatPulse 0.55s ease-out; }
+  @keyframes heatPulse {
+    0% { transform: scale(0.96); opacity: 0.55; }
+    40% { transform: scale(1.03); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .heat-banner .hb-city { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9; margin-bottom: 4px; }
+  .heat-banner .hb-word { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .heat-banner .hb-dist { font-size: 15px; margin-top: 6px; opacity: 0.95; }
+  .heat-banner.heat-burning { background: linear-gradient(135deg, #ea580c, #9a3412); }
+  .heat-banner.heat-hot { background: linear-gradient(135deg, #f97316, #c2410c); }
+  .heat-banner.heat-warm { background: linear-gradient(135deg, #f59e0b, #b45309); }
+  .heat-banner.heat-cold { background: linear-gradient(135deg, #60a5fa, #3b6ea5); }
+  .heat-banner.heat-freezing { background: linear-gradient(135deg, #64748b, #1e3a5f); }
+  .heat-banner.heat-ok { background: linear-gradient(135deg, #4ade80, #2f6d4f); }
+
+  /* Final Results overlay */
+  .results-overlay {
+    position: fixed; inset: 0; z-index: 30; background: rgba(26,24,20,0.82);
+    display: flex; align-items: stretch; justify-content: center; padding: 12px;
+    overflow: auto; -webkit-overflow-scrolling: touch;
+  }
+  .results-overlay[hidden] { display: none !important; }
+  .results-sheet {
+    width: 100%; max-width: 520px; margin: auto; background: var(--paper);
+    border-radius: 12px; border: 2px solid var(--ink);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    padding: 28px 24px 36px; position: relative;
+  }
+  .results-sheet:before {
+    content: ""; position: absolute; left: 10px; right: 10px; top: -4px; height: 8px;
+    background: radial-gradient(circle, transparent 3px, var(--paper) 3.5px) 0 0 / 10px 8px repeat-x;
+  }
+  .results-kicker {
+    font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; text-align: center;
+    color: var(--tip); font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .results-headline {
+    text-align: center; font-size: 32px; line-height: 1.05; margin: 0 0 6px; font-weight: 800;
+  }
+  .results-headline.win { color: var(--ok); }
+  .results-headline.lose { color: var(--tip); }
+  .results-sub { text-align: center; font-size: 15px; color: var(--muted); margin: 0 0 18px; }
+  .results-block {
+    background: var(--cream); border: 1px solid #cbb996; border-radius: 10px;
+    padding: 16px; margin: 0 0 14px;
+  }
+  .results-block h3 {
+    margin: 0 0 10px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .results-trail { list-style: none; padding: 0; margin: 0 0 12px; }
+  .results-trail li {
+    font-size: 14px; padding: 8px 10px; margin: 0 0 4px; border-radius: 6px;
+    border-left: 4px solid var(--rule); background: rgba(255,255,255,0.5);
+  }
+  .results-trail li.heat-burning { border-left-color: var(--burning); background: #ffedd5; }
+  .results-trail li.heat-hot { border-left-color: var(--hot); background: #ffedd5; }
+  .results-trail li.heat-warm { border-left-color: var(--warm); background: #fef3c7; }
+  .results-trail li.heat-cold { border-left-color: var(--cold); background: #dbeafe; }
+  .results-trail li.heat-freezing { border-left-color: var(--freezing); background: #e0e7ff; }
+  .results-trail li.heat-ok { border-left-color: var(--ok); background: #dcfce7; }
+  .crowd-line {
+    text-align: center; font-size: 18px; line-height: 1.35; padding: 8px 4px;
+    font-weight: 600;
+  }
+  .crowd-line.muted { color: var(--muted); font-weight: 400; font-size: 16px; }
+  .city-card .city-name {
+    font-size: 26px; font-weight: 800; margin: 0 0 12px; text-align: center;
+  }
+  .city-card .fact {
+    margin: 0 0 12px; font-size: 15px; line-height: 1.45;
+    padding-left: 12px; border-left: 3px solid var(--tip);
+  }
+  .city-card .fact .label {
+    display: block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px; font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .streak-soft {
+    text-align: center; font-size: 15px; color: var(--muted); margin: 4px 0 16px;
+    font-style: italic;
+  }
+  .end-bar {
+    margin-top: 16px; padding: 12px; border: 1px dashed #cbb996; border-radius: 8px;
+    background: var(--paper2); text-align: center;
+  }
+  .end-bar p { margin: 0 0 8px; font-size: 15px; }
   @media (max-width: 640px) {
     body { padding: 0; }
     .frame { border-radius: 0; min-height: 100dvh; padding: 20px 16px 28px; }
     .receipt:before, .receipt:after { display: none; }
+    .results-sheet { border-radius: 0; min-height: 100%; margin: 0; }
+    .results-sheet:before { display: none; }
+    .results-overlay { padding: 0; }
   }
 </style>
 </head>
 <body>
-<div class="frame">
+<div class="frame" id="mainFrame">
   <header>
     <button class="helpbtn" type="button" id="helpOpen">?</button>
     <div class="mast">Evening edition</div>
@@ -166,6 +278,10 @@
   </div>
 </div>
 
+<div class="results-overlay" id="results" hidden>
+  <div class="results-sheet" id="resultsSheet"></div>
+</div>
+
 <script src="cities.js"></script>
 <script>
 /* Baskets from Open Prices (prices.openfoodfacts.org), Sep 2026 pull, converted to USD.
@@ -180,6 +296,9 @@ const DAYS = {
     currency: "USD",
     paper: "Sunday crowd still circles the old cathedral square.",
     why: "The cathedral was the fair clue. Dinner was a printen town night.",
+    funFact: "Aachen Cathedral is Germany's oldest cathedral and a UNESCO site — Charlemagne was buried here, and coronations ran for centuries.",
+    lifeBite: "A Rewe-style basket with edamame, hummus, and spelt bread, then brauhaus sauerbraten with Kölsch — Rhineland grocery habits meeting a printen-town night out.",
+    priceContext: "Convenience run about $20; brauhaus dinner with drinks about $32 USD.",
     stages: [
       {
         label: "convenience",
@@ -209,6 +328,9 @@ const DAYS = {
     currency: "USD",
     paper: "Morning walkers still gather at the peace park by the river before the heat.",
     why: "Local-style savory pancake for dinner. The park and the tab both pointed here.",
+    funFact: "Hiroshima-style okonomiyaki is layered — cabbage, pork, noodles — not mixed like Osaka's. Locals still call it the city's everyday comfort plate.",
+    lifeBite: "A light convenience snack, then pork-egg-soba okonomiyaki for lunch and shrimp okonomiyaki with beer and sake for dinner — a classic local day by the river.",
+    priceContext: "Convenience snacks about $5; teppan dinner with drinks about $16 USD.",
     stages: [
       {
         label: "convenience",
@@ -238,6 +360,9 @@ const DAYS = {
     currency: "USD",
     paper: "The tall concrete church still owns the skyline over the harbour.",
     why: "The church was the fair clue. Dinner was harbour fish and a pint.",
+    funFact: "Hallgrímskirkja's tower still owns the skyline. Down by the harbour, the humble hot dog remains Iceland's most democratic snack.",
+    lifeBite: "Corner-shop juices run steep, a harbour hot dog covers lunch, then fish and chips with a pint — Iceland prices bite, but the harbour meal is the ritual.",
+    priceContext: "Corner juices about $12; harbour fish dinner about $49 USD.",
     stages: [
       {
         label: "convenience",
@@ -267,6 +392,9 @@ const DAYS = {
     currency: "USD",
     paper: "The elevated train over the wet shopping strip slowed again after the rain.",
     why: "The Skytrain was the fair clue. Dinner was street noodles and a beer.",
+    funFact: "Bangkok's BTS Skytrain rides above wet markets and flood-prone sois — after rain, the elevated line is still how the city keeps moving.",
+    lifeBite: "Fancy convenience cheese and macarons, then pad thai for pocket change and boat noodles at night — street food stays startlingly cheap next to supermarket imports.",
+    priceContext: "Convenience haul about $16; night stall dinner about $6 USD.",
     stages: [
       {
         label: "convenience",
@@ -296,6 +424,9 @@ const DAYS = {
     currency: "USD",
     paper: "The yellow metro line jammed before the derby crowd spilled out.",
     why: "The metro derby line was the fair clue. Dinner was a chopp and a plate.",
+    funFact: "São Paulo's yellow metro line and derby days pack platforms citywide. Botecos — neighborhood bars with coxinha and chopp — are the everyday hangout.",
+    lifeBite: "Atacado staples in the morning, pão de queijo at the padaria, then coxinha and draft beer at a boteco — a very Paulista rhythm.",
+    priceContext: "Grocery lane about $7; boteco dinner about $10 USD.",
     stages: [
       {
         label: "convenience",
@@ -325,6 +456,9 @@ const DAYS = {
     currency: "USD",
     paper: "Weekend work on the crosstown train again. Bring a book.",
     why: "The L train was the fair clue. Dinner was a slice city night.",
+    funFact: "The L train's weekend work is a New York cliché. A plain slice remains the city's unit of lunch — cheap, fast, and everywhere.",
+    lifeBite: "Warehouse club snacks run high, a corner slice and soda cover lunch, then pepperoni with a Brooklyn lager — classic NYC casual.",
+    priceContext: "Warehouse sample about $37; late counter dinner about $22.50 USD.",
     stages: [
       {
         label: "convenience",
@@ -354,6 +488,9 @@ const DAYS = {
     currency: "USD",
     paper: "The coastal tram was still packed after the match.",
     why: "The tram number was the fair clue. Dinner was a parma and a pint.",
+    funFact: "Coastal trams after the match are a Melbourne weekend cliché. Chicken parma — crumbed, sauced, cheesed — is still pub canon.",
+    lifeBite: "Suburban market staples, a cafe parma for lunch, then pub parma with a pint — Melburnians do comfort food hard.",
+    priceContext: "Market basket about $14; pub dinner about $38 USD.",
     stages: [
       {
         label: "convenience",
@@ -383,6 +520,9 @@ const DAYS = {
     currency: "USD",
     paper: "The metro to the big mall by the ski slope is still the weekend default.",
     why: "The metro stop was the fair clue. Dinner was a mixed grill and a mocktail, or a hotel pint.",
+    funFact: "The metro stop for the mall with an indoor ski slope is a weekend default. Alcohol stays limited to hotels and licensed venues.",
+    lifeBite: "Fresh crêpes and chilled hibiscus, shawarma for lunch, mixed grill with juice or a hotel lager — mall-city everyday.",
+    priceContext: "Fresh counter about $14; grill dinner about $35 USD.",
     stages: [
       {
         label: "convenience",
@@ -412,6 +552,9 @@ const DAYS = {
     currency: "USD",
     paper: "The university tram still fills before lectures.",
     why: "The tram letter was the fair clue. Dinner was alpine-city bistro.",
+    funFact: "Grenoble is France's alpine university city. Tartiflette and génépi are Savoy comfort markers — cheese, potatoes, and a mountain digestif.",
+    lifeBite: "Bio-aisle yogurt and olive oil, a formule midi lunch, then tartiflette with Savoie wine — student-city alpine rhythm.",
+    priceContext: "Bio aisle about $26; bistro dinner about $38 USD.",
     stages: [
       {
         label: "convenience",
@@ -470,13 +613,10 @@ function reportPlay() {
   }).then(r => { if (r.ok) localStorage.setItem(flag, "1"); }).catch(() => {});
 }
 
-
-
 function money(n, code) {
   const x = Number(n);
   return "$" + x.toFixed(2);
 }
-
 
 function wrongCount(st) {
   return (st.guesses || []).filter(g => !g.ok).length;
@@ -534,12 +674,18 @@ function suggestCities(q) {
 }
 
 function heat(km) {
-  if (km < 1) return { t: "that's the city", cls: "ok" };
-  if (km < 250) return { t: "burning", cls: "hot" };
-  if (km < 800) return { t: "hot", cls: "hot" };
-  if (km < 2000) return { t: "warm", cls: "hot" };
-  if (km < 5000) return { t: "cold", cls: "" };
-  return { t: "freezing", cls: "" };
+  if (km < 1) return { t: "You got it", cls: "ok", key: "ok" };
+  if (km < 500) return { t: "Burning", cls: "hot", key: "burning" };
+  if (km < 1500) return { t: "Hot", cls: "hot", key: "hot" };
+  if (km < 3000) return { t: "Warm", cls: "hot", key: "warm" };
+  if (km < 6000) return { t: "Cold", cls: "", key: "cold" };
+  return { t: "Freezing", cls: "", key: "freezing" };
+}
+
+function fmtKm(km) {
+  if (km < 1) return "0 km";
+  if (km < 10) return km.toFixed(1) + " km";
+  return Math.round(km).toLocaleString("en-US") + " km";
 }
 
 function loadState(day) {
@@ -567,32 +713,169 @@ function streakCount() {
   return n;
 }
 
+function streakMessage() {
+  const n = streakCount();
+  if (n >= 2) return "You're on a " + n + "-day streak";
+  if (n === 1) return "You're on a 1-day streak";
+  return "Start a streak tomorrow";
+}
+
 function scoreDots(n, won, max) {
   const filled = won ? n : max;
   return "●".repeat(filled) + "○".repeat(Math.max(0, max - filled));
+}
+
+function shareText() {
+  return "Tab " + num + "  " + scoreDots(state.guesses.length, state.won, 6);
 }
 
 const DAY = todayKey();
 const P = DAYS[DAY];
 const num = DAY.slice(8);
 let state = loadState(DAY);
+let resultsOpen = false;
+let justGuessed = false;
+let crowdPct = null;
+let crowdStatus = "loading"; // loading | ready | empty
+let crowdTimer = null;
 
 document.getElementById("dateline").textContent = fmtDate(DAY);
+
+function fetchWinrate() {
+  crowdStatus = "loading";
+  updateCrowdUI();
+  fetch(SB_URL + "/functions/v1/winrate?date=" + encodeURIComponent(DAY))
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+      if (data && typeof data.solvedPct === "number" && data.solvedPct >= 0 && data.solvedPct <= 100) {
+        crowdPct = Math.round(data.solvedPct);
+        crowdStatus = "ready";
+      } else {
+        crowdPct = null;
+        crowdStatus = "empty";
+      }
+      updateCrowdUI();
+    })
+    .catch(() => {
+      crowdPct = null;
+      crowdStatus = "empty";
+      updateCrowdUI();
+    });
+}
+
+function crowdHTML() {
+  if (crowdStatus === "ready" && crowdPct !== null) {
+    return `<div class="crowd-line">${crowdPct}% of players solved today's tab</div>`;
+  }
+  return `<div class="crowd-line muted">Crowd score warming up…</div>`;
+}
+
+function updateCrowdUI() {
+  const el = document.getElementById("crowdBlock");
+  if (el) el.innerHTML = crowdHTML();
+}
+
+function heatBannerHTML(g, pulse) {
+  const h = g.ok ? { t: "You got it", key: "ok" } : heat(g.km);
+  const pulseCls = pulse ? " pulse" : "";
+  return `<div class="heat-banner heat-${h.key}${pulseCls}" id="heatBanner">
+    <div class="hb-city">${g.name}</div>
+    <div class="hb-word">${h.t}</div>
+    <div class="hb-dist">${g.ok ? "That's the city" : fmtKm(g.km) + " away"}</div>
+  </div>`;
+}
+
+function renderResults() {
+  const n = state.guesses.length;
+  const headline = state.won ? "You got it" : "Close, but not today";
+  const sub = state.won
+    ? `Solved in ${n} guess${n === 1 ? "" : "es"}`
+    : `It was ${P.city} · ${n} guess${n === 1 ? "" : "es"}`;
+  const trail = state.guesses.map(g => {
+    const h = g.ok ? { t: "yes", key: "ok" } : heat(g.km);
+    return `<li class="heat-${h.key}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}${g.ok ? "" : " · " + fmtKm(g.km)}</li>`;
+  }).join("");
+
+  document.getElementById("resultsSheet").innerHTML = `
+    <div class="results-kicker">Final results</div>
+    <h2 class="results-headline ${state.won ? "win" : "lose"}">${headline}</h2>
+    <p class="results-sub">${sub}</p>
+    <p class="streak-soft">${streakMessage()}</p>
+
+    <div class="results-block">
+      <h3>Your score</h3>
+      <ul class="results-trail">${trail}</ul>
+      <div class="share" id="share">${shareText()}</div>
+      <button class="go" type="button" id="copyBtn">Copy the score</button>
+    </div>
+
+    <div class="results-block">
+      <h3>Crowd</h3>
+      <div id="crowdBlock">${crowdHTML()}</div>
+    </div>
+
+    <div class="results-block city-card">
+      <h3>Today's city</h3>
+      <div class="city-name">${P.city}</div>
+      <div class="fact"><span class="label">Fun fact</span>${P.funFact}</div>
+      <div class="fact"><span class="label">Life bite</span>${P.lifeBite}</div>
+      <div class="fact"><span class="label">Price context</span>${P.priceContext}</div>
+      <p style="margin:8px 0 0;font-size:14px;color:var(--muted)">${P.why}</p>
+    </div>
+
+    <button class="ghost" type="button" id="backToTab">Back to today's tab</button>
+  `;
+
+  const cb = document.getElementById("copyBtn");
+  if (cb) cb.onclick = copyShare;
+  const back = document.getElementById("backToTab");
+  if (back) back.onclick = () => hideResults();
+}
+
+function showResults(opts) {
+  opts = opts || {};
+  resultsOpen = true;
+  renderResults();
+  document.getElementById("results").hidden = false;
+  fetchWinrate();
+  if (crowdTimer) clearTimeout(crowdTimer);
+  // Refresh once so this player's finish is more likely included
+  crowdTimer = setTimeout(fetchWinrate, opts.delayRefresh || 1800);
+}
+
+function hideResults() {
+  resultsOpen = false;
+  document.getElementById("results").hidden = true;
+  render();
+}
 
 function render() {
   document.getElementById("streak").textContent = streakCount() ? (`streak ${streakCount()}`) : "";
   const S = P.stages[stageIndex(state)];
   const rows = S.lines.map(([n, p]) => `<div class="row"><span>${n}</span><span>${money(p, P.currency)}</span></div>`).join("");
-  const log = state.guesses.map(g => {
-    const h = heat(g.km);
-    return `<li class="${g.ok ? "ok" : h.cls}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}</li>`;
+  const lastIdx = state.guesses.length - 1;
+  const log = state.guesses.map((g, i) => {
+    const h = g.ok ? { t: "yes", key: "ok" } : heat(g.km);
+    const latest = (i === lastIdx && justGuessed) ? " latest" : "";
+    return `<li class="heat-${h.key}${latest}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}${g.ok ? "" : " · " + fmtKm(g.km)}</li>`;
   }).join("");
+
+  let banner = "";
+  if (state.guesses.length && !state.done) {
+    banner = heatBannerHTML(state.guesses[lastIdx], justGuessed);
+  } else if (state.guesses.length && state.done && justGuessed && state.won) {
+    // Brief win flash stays on tab until Results takes over
+    banner = heatBannerHTML(state.guesses[lastIdx], true);
+  }
+
   let end = "";
   if (state.done) {
-    end = `<p class="msg ${state.won ? "ok" : ""}">${state.won ? "You got it." : "It was " + P.city + "."} ${P.why}</p>
-      <div class="share" id="share">Tab ${num}  ${scoreDots(state.guesses.length, state.won, 6)}</div>
-      <button class="go" type="button" id="copyBtn">Copy the score</button>`;
+    end = `<div class="end-bar">
+      <p class="msg ${state.won ? "ok" : ""}">${state.won ? "You got it." : "It was " + P.city + "."}</p>
+      <button class="go" type="button" id="openResultsBtn">Final results</button>
+    </div>`;
   }
+
   const left = 6 - state.guesses.length;
   document.getElementById("game").innerHTML = `
     <p class="lede">Read the tip. Read the tab. Guess the city. Two misses unlock lunch. Two more unlock dinner with a drink.</p>
@@ -612,12 +895,17 @@ function render() {
         <button class="go" type="button" id="guessBtn">${left} left</button>
       </div></div>
     `}
+    ${banner}
     <ul class="log">${log}</ul>
     ${end}
   `;
   wireGuess();
-  const cb = document.getElementById("copyBtn");
-  if (cb) cb.onclick = copyShare;
+  const orb = document.getElementById("openResultsBtn");
+  if (orb) orb.onclick = () => showResults();
+  // consume pulse flag after paint
+  if (justGuessed) {
+    setTimeout(() => { justGuessed = false; }, 600);
+  }
 }
 
 function wireGuess() {
@@ -668,23 +956,33 @@ function guessCity() {
   const km = dist([hit[1], hit[2]], [ans[1], ans[2]]);
   const ok = hit[0] === P.city;
   state.guesses.push({ name: hit[0], km, ok });
+  justGuessed = true;
   if (ok || state.guesses.length >= 6) {
     state.done = true;
     state.won = ok;
   }
   saveState(DAY, state);
-  if (state.done) reportPlay();
-  render();
+  if (state.done) {
+    reportPlay();
+    render();
+    // On win: brief green flash, then Results. On lose: open Results shortly after.
+    const delay = state.won ? 900 : 500;
+    setTimeout(() => showResults({ delayRefresh: 1800 }), delay);
+  } else {
+    render();
+  }
 }
 
 function copyShare() {
-  const t = document.getElementById("share").textContent;
+  const el = document.getElementById("share");
+  const t = el ? el.textContent : shareText();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(t).catch(() => selectShare());
   } else selectShare();
 }
 function selectShare() {
   const el = document.getElementById("share");
+  if (!el) return;
   const r = document.createRange(); r.selectNodeContents(el);
   const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
 }
@@ -698,6 +996,10 @@ document.getElementById("helpClose").onclick = () => {
 if (!localStorage.getItem(KEY + "-helped-v8")) help.hidden = false;
 
 render();
+// Returning player who already finished: open Results as primary
+if (state.done) {
+  showResults({ delayRefresh: 1200 });
+}
 </script>
 </body>
 </html>
