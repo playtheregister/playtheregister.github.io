@@ -107,6 +107,37 @@
   .overlay h2 { margin: 0 0 10px; font-size: 26px; }
   .overlay p { margin: 0 0 10px; font-size: 15px; line-height: 1.45; }
   .hidden { display: none; }
+  .guess-wrap {
+    position: sticky; bottom: 0; z-index: 5; margin: 18px -8px 0;
+    padding: 12px 8px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, rgba(247,241,228,0), var(--paper) 28%);
+  }
+  .guess-box {
+    background: var(--cream); border: 1px solid #cbb996; border-radius: 12px;
+    padding: 12px; box-shadow: 0 -4px 24px rgba(0,0,0,0.08);
+  }
+  .guess-box label { margin: 0 0 8px; }
+  .guess-box input {
+    font-size: 16px;
+    -webkit-user-select: text; user-select: text;
+    touch-action: manipulation;
+  }
+  .suggestions {
+    list-style: none; margin: 8px 0 0; padding: 0; max-height: 180px; overflow: auto;
+    border: 1px solid #e0d3b8; border-radius: 8px; background: #fff;
+  }
+  .suggestions:empty { display: none; }
+  .suggestions li {
+    padding: 12px 14px; border-bottom: 1px solid #efe6d4; font-size: 16px; cursor: pointer;
+  }
+  .suggestions li:last-child { border-bottom: 0; }
+  .suggestions li:active, .suggestions li.active { background: #f3e8d4; }
+  .err { color: var(--hot); font-size: 14px; margin-top: 8px; min-height: 1.2em; }
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .frame { border-radius: 0; min-height: 100dvh; padding: 20px 16px 28px; }
+    .receipt:before, .receipt:after { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -473,7 +504,28 @@ function dist(a, b) {
 
 function findCity(name) {
   const n = name.trim().toLowerCase();
-  return CITIES.find(c => c[0].toLowerCase() === n);
+  if (!n) return null;
+  let hit = CITIES.find(c => c[0].toLowerCase() === n);
+  if (hit) return hit;
+  const starts = CITIES.filter(c => c[0].toLowerCase().startsWith(n));
+  if (starts.length === 1) return starts[0];
+  const inc = CITIES.filter(c => c[0].toLowerCase().includes(n));
+  if (inc.length === 1) return inc[0];
+  return null;
+}
+function suggestCities(q) {
+  const n = q.trim().toLowerCase();
+  if (!n) return [];
+  const scored = CITIES.map(c => {
+    const name = c[0].toLowerCase();
+    let score = 0;
+    if (name === n) score = 100;
+    else if (name.startsWith(n)) score = 80;
+    else if (name.includes(n)) score = 40;
+    else return null;
+    return { c, score };
+  }).filter(Boolean).sort((a,b) => b.score - a.score || a.c[0].localeCompare(b.c[0]));
+  return scored.slice(0, 8).map(x => x.c);
 }
 
 function heat(km) {
@@ -547,32 +599,67 @@ function render() {
       <div class="row total"><span>total</span><span>${money(S.total, P.currency)}</span></div>
     </div>
     ${state.done ? "" : `
-      <label for="city">Guess the city</label>
-      <input id="city" list="citylist" autocomplete="off" placeholder="e.g. Lisbon" />
-      <datalist id="citylist">${CITIES.map(c => `<option value="${c[0]}">`).join("")}</datalist>
-      <button class="go" type="button" id="guessBtn">${left} left · Enter works</button>
+      <div class="guess-wrap"><div class="guess-box">
+        <label for="city">Guess the city</label>
+        <input id="city" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" placeholder="Type a city" />
+        <ul class="suggestions" id="suggestions"></ul>
+        <div class="err" id="guessErr"></div>
+        <button class="go" type="button" id="guessBtn">${left} left</button>
+      </div></div>
     `}
     <ul class="log">${log}</ul>
     ${end}
   `;
-  const input = document.getElementById("city");
-  if (input) {
-    input.focus();
-    input.addEventListener("keydown", e => { if (e.key === "Enter") guessCity(); });
-  }
-  const gb = document.getElementById("guessBtn");
-  if (gb) gb.onclick = guessCity;
+  wireGuess();
   const cb = document.getElementById("copyBtn");
   if (cb) cb.onclick = copyShare;
+}
+
+function wireGuess() {
+  const input = document.getElementById("city");
+  const box = document.getElementById("suggestions");
+  const btn = document.getElementById("guessBtn");
+  if (!input) return;
+  const paint = () => {
+    const list = suggestCities(input.value);
+    box.innerHTML = list.map(c => `<li data-city="${c[0]}">${c[0]}</li>`).join("");
+    [...box.querySelectorAll("li")].forEach(li => {
+      li.addEventListener("click", () => {
+        input.value = li.dataset.city;
+        box.innerHTML = "";
+        guessCity();
+      });
+    });
+  };
+  input.addEventListener("input", () => {
+    const err = document.getElementById("guessErr");
+    if (err) err.textContent = "";
+    paint();
+  });
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); guessCity(); }
+  });
+  if (btn) btn.onclick = guessCity;
+  const coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  if (!coarse) input.focus({ preventScroll: true });
+  else setTimeout(() => input.scrollIntoView({ block: "nearest", behavior: "smooth" }), 50);
 }
 
 function guessCity() {
   if (state.done) return;
   const input = document.getElementById("city");
+  const err = document.getElementById("guessErr");
+  if (!input) return;
   const hit = findCity(input.value);
-  if (!hit) { input.value = ""; input.placeholder = "pick a city from the list"; return; }
-  if (state.guesses.some(g => g.name === hit[0])) { input.value = ""; return; }
-  const ans = findCity(P.city);
+  if (!hit) {
+    if (err) err.textContent = "Pick a city from the suggestions, or type the full name.";
+    return;
+  }
+  if (state.guesses.some(g => g.name === hit[0])) {
+    if (err) err.textContent = "Already guessed that one.";
+    return;
+  }
+  const ans = CITIES.find(c => c[0] === P.city);
   const km = dist([hit[1], hit[2]], [ans[1], ans[2]]);
   const ok = hit[0] === P.city;
   state.guesses.push({ name: hit[0], km, ok });
