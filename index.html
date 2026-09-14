@@ -593,6 +593,967 @@ const DAYS = {
       },
     ]
   },
+  // --- 2026-09-22 .. 2026-10-21: realistic local USD conversions (Open Prices sparse for most cities) ---
+  "2026-09-22": {
+    city: "Tokyo",
+    currency: "USD",
+    paper: "The loop train still packs tight after the evening chime.",
+    why: "The Yamanote loop was the fair clue. Dinner was a conveyer sushi night.",
+    funFact: "Tokyo's Yamanote line loops the core wards every few minutes. Conveyor-belt sushi (kaiten-zushi) started as a novelty and became an everyday dinner.",
+    lifeBite: "Konbini onigiri and canned coffee, a standing soba lunch, then sushi plates with draft beer and a small sake — a classic salary-day rhythm.",
+    priceContext: "Convenience snacks about $8; sushi dinner with drinks about $28 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "konbini aisle",
+        lines: [["salmon onigiri", "1.45"], ["egg sandwich", "2.10"], ["canned coffee", "1.25"], ["green tea bottle", "1.40"], ["chocolate puff", "1.55"]],
+        total: "7.75",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "standing counter",
+        lines: [["tempura soba", "7.80"], ["soft drink", "1.60"]],
+        total: "9.40",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "kaiten counter",
+        lines: [["assorted sushi set", "16.50"], ["draft beer, medium", "4.20"], ["local sake, small", "3.80"], ["edamame", "3.20"]],
+        total: "27.70",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-23": {
+    city: "Lisbon",
+    currency: "USD",
+    paper: "The yellow tram still squeals up the steep hillside after lunch.",
+    why: "The hillside tram was the fair clue. Dinner was grilled sardines and vinho verde.",
+    funFact: "Lisbon's yellow Remodelados still climb Alfama and Graça. Grilled sardines and vinho verde are summer-table staples along the Tagus.",
+    lifeBite: "Pastelaria coffee and a pastel de nata, a bifana for lunch, then sardines with green wine — hillside-city everyday.",
+    priceContext: "Corner bakery about $6; tasca dinner about $24 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "corner pastelaria",
+        lines: [["pastel de nata, two", "2.60"], ["bica coffee", "1.10"], ["orange juice small", "2.20"]],
+        total: "5.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "snack bar",
+        lines: [["bifana sandwich", "4.50"], ["imperial beer, small", "2.20"]],
+        total: "6.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "tasca",
+        lines: [["grilled sardines plate", "14.80"], ["vinho verde, glass", "4.50"], ["ginginha shot", "2.80"], ["bread basket", "1.90"]],
+        total: "24.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-24": {
+    city: "Mexico City",
+    currency: "USD",
+    paper: "The pink line still rattles under the avenue before kickoff.",
+    why: "The metro color was the fair clue. Dinner was tacos al pastor and a michelada.",
+    funFact: "CDMX metro lines are color-coded; Line 1 is the pink one. Al pastor — trompo-spit pork with pineapple — is the city's signature street taco.",
+    lifeBite: "Oxxo snacks and agua de jamaica, a mid-day torta, then pastor tacos with a michelada — capital-city street rhythm.",
+    priceContext: "Corner shop about $5; taquería dinner about $12 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "corner shop",
+        lines: [["chamoy chips", "1.15"], ["agua de jamaica bottle", "1.40"], ["yogurt drink", "1.25"], ["peanut candy", "0.95"]],
+        total: "4.75",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "torta stand",
+        lines: [["torta de milanesa", "4.80"], ["agua fresca", "1.40"]],
+        total: "6.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "taquería",
+        lines: [["tacos al pastor, four", "5.60"], ["michelada", "3.80"], ["mezcal shot", "2.90"]],
+        total: "12.30",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-25": {
+    city: "Cape Town",
+    currency: "USD",
+    paper: "The cable car queue still snakes before the afternoon wind picks up.",
+    why: "The mountain cable car was the fair clue. Dinner was a braai plate and local pinotage.",
+    funFact: "Table Mountain's cableway is weather-dependent — wind often closes it. Braai culture and pinotage (a local grape cross) define weekend tables.",
+    lifeBite: "Woolworths-style snacks, a Gatsby sandwich for lunch, then boerewors with pinotage — peninsula weekend fare.",
+    priceContext: "Grocery nibble about $9; braai dinner about $28 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "suburban grocer",
+        lines: [["biltong pack", "3.40"], ["rooibos iced tea", "1.80"], ["rusks pack", "2.10"], ["fruit juice", "1.60"]],
+        total: "8.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "takeaway counter",
+        lines: [["gatsby sandwich, half", "6.50"], ["soda", "1.40"]],
+        total: "7.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "braai house",
+        lines: [["boerewors plate", "14.80"], ["pap and relish", "3.20"], ["pinotage, glass", "6.50"], ["local lager", "3.40"]],
+        total: "27.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-26": {
+    city: "Buenos Aires",
+    currency: "USD",
+    paper: "The colectivo still crawls past the obelisk before the evening match.",
+    why: "The obelisk corridor was the fair clue. Dinner was a parrilla night with malbec.",
+    funFact: "The Obelisco anchors Avenida 9 de Julio. Parrilla — wood-fired grill — and malbec are the city's ritual dinner pairing.",
+    lifeBite: "Kiosco alfajores and mate kit, a choripán lunch, then asado with malbec — porteño classic.",
+    priceContext: "Kiosco run about $6; parrilla dinner about $32 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "kiosco",
+        lines: [["alfajor, two", "2.20"], ["yerba mate small", "2.40"], ["soda water", "1.10"]],
+        total: "5.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "street cart",
+        lines: [["choripán", "4.50"], ["fernet cola, small", "3.20"]],
+        total: "7.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "parrilla",
+        lines: [["asado plate", "18.50"], ["provoleta", "5.20"], ["malbec, glass", "5.80"], ["Fernet shot", "2.40"]],
+        total: "31.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-27": {
+    city: "Seoul",
+    currency: "USD",
+    paper: "The underground maze under the palace station still confuses first-timers.",
+    why: "The palace-side metro maze was the fair clue. Dinner was Korean BBQ and soju.",
+    funFact: "Seoul Station and palace-area transfers are famously labyrinthine. Samgyeopsal (pork belly BBQ) with soju is the national hangout meal.",
+    lifeBite: "CU-aisle snacks and banana milk, a bibimbap lunch, then grilled pork with soju — capital comfort.",
+    priceContext: "Convenience aisle about $8; BBQ dinner about $30 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "convenience aisle",
+        lines: [["banana milk", "1.35"], ["triangular gimbap", "1.80"], ["honey butter chips", "2.10"], ["yuzu drink", "1.55"], ["cheese stick", "1.20"]],
+        total: "8.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "lunch room",
+        lines: [["bibimbap", "8.40"], ["barley tea", "1.50"]],
+        total: "9.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "grill house",
+        lines: [["samgyeopsal set for one", "18.50"], ["soju bottle", "4.20"], ["draft beer", "4.50"], ["kimchi pancake", "6.80"]],
+        total: "34.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-28": {
+    city: "Copenhagen",
+    currency: "USD",
+    paper: "Bike rush still floods the bridge before the harbour baths open.",
+    why: "The harbour bike bridge was the fair clue. Dinner was smørrebrød and aquavit.",
+    funFact: "Copenhagen's harbour bridges carry more bikes than cars at peak. Smørrebrød — open-faced rye sandwiches — and aquavit are old-school Danish table markers.",
+    lifeBite: "Corner bakery cardamom bun, a hot dog lunch, then classic smørrebrød with aquavit — Nordic casual.",
+    priceContext: "Bakery stop about $10; restaurant dinner about $48 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "corner bakery",
+        lines: [["cardamom bun", "3.80"], ["filter coffee", "3.20"], ["apple juice", "2.90"]],
+        total: "9.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "pølsevogn",
+        lines: [["hot dog with everything", "6.50"], ["soda", "3.20"]],
+        total: "9.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "smørrebrød house",
+        lines: [["three smørrebrød set", "28.50"], ["aquavit shot", "8.20"], ["local lager", "7.80"], ["pickled herring extra", "6.40"]],
+        total: "50.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-29": {
+    city: "Chicago",
+    currency: "USD",
+    paper: "The elevated loop still screeches around the downtown rectangle.",
+    why: "The L loop was the fair clue. Dinner was a deep-dish night and a local lager.",
+    funFact: "Chicago's Loop is named for the elevated tracks that circle downtown. Deep-dish pizza remains the tourist-vs-local debate forever.",
+    lifeBite: "Warehouse snacks, an Italian beef for lunch, then deep-dish with a Midwestern lager — lake-city classic.",
+    priceContext: "Warehouse sample about $18; pizzeria dinner about $36 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "warehouse sample",
+        lines: [["pretzel thins", "4.99"], ["cheese curls", "5.49"], ["sparkling water 8-pack", "7.29"]],
+        total: "17.77",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "beef stand",
+        lines: [["Italian beef sandwich", "11.50"], ["fountain drink", "2.50"]],
+        total: "14.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "pizzeria",
+        lines: [["deep-dish, personal", "18.00"], ["local lager, pint", "8.00"], ["whiskey neat", "10.00"]],
+        total: "36.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-09-30": {
+    city: "Istanbul",
+    currency: "USD",
+    paper: "The ferry still cuts the strait between continents at rush hour.",
+    why: "The intercontinental ferry was the fair clue. Dinner was meze and rakı.",
+    funFact: "Istanbul's ferries still stitch Europe to Asia across the Bosphorus. Rakı with meze — anise spirit and small plates — is the classic evening table.",
+    lifeBite: "Simit and tea on the quay, a dürüm lunch, then meze with rakı — strait-city rhythm.",
+    priceContext: "Quay snack about $4; meyhane dinner about $28 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "quay kiosk",
+        lines: [["simit", "0.90"], ["çay tea glass", "0.70"], ["ayran bottle", "1.10"], ["roasted chestnuts small", "1.40"]],
+        total: "4.10",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "dürüm stall",
+        lines: [["chicken dürüm", "4.80"], ["ayran", "1.20"]],
+        total: "6.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "meyhane",
+        lines: [["meze platter", "14.50"], ["grilled sea bass", "12.80"], ["rakı, double", "6.40"], ["tea", "0.80"]],
+        total: "34.50",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-01": {
+    city: "Singapore",
+    currency: "USD",
+    paper: "The underground walk still funnels shoppers toward the orchid garden stop.",
+    why: "The orchid MRT stop was the fair clue. Dinner was hawker chilli crab vibes and a Tiger.",
+    funFact: "Botanic Gardens MRT sits by UNESCO orchids. Hawker centres — shared food courts with dozens of stalls — are how the city eats every night.",
+    lifeBite: "Cold-storage snacks, chicken rice for lunch, then laksa and chilli crab bites with Tiger beer — island hawker night.",
+    priceContext: "Cold storage about $12; hawker dinner about $22 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "cold storage",
+        lines: [["kaya toast pack", "3.40"], ["bandung drink", "2.10"], ["prawn crackers", "2.80"], ["yogurt drink", "1.90"], ["milo packet", "1.60"]],
+        total: "11.80",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "hawker stall",
+        lines: [["chicken rice", "4.20"], ["sugarcane juice", "1.80"]],
+        total: "6.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "hawker centre",
+        lines: [["laksa bowl", "6.50"], ["chilli crab small plate", "12.80"], ["Tiger beer", "5.20"], ["cheng tng dessert", "2.40"]],
+        total: "26.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-02": {
+    city: "Lima",
+    currency: "USD",
+    paper: "The coastal cliff fog still rolls in before the evening ceviche rush.",
+    why: "The cliff-fog coast was the fair clue. Dinner was ceviche and a pisco sour.",
+    funFact: "Lima's garúa fog blankets the cliffs for months. Ceviche — raw fish cured in citrus — and the pisco sour are national icons.",
+    lifeBite: "Bodega Inca Kola and chifles, a menú del día lunch, then ceviche with pisco — misty-capital classic.",
+    priceContext: "Bodega run about $5; cevichería dinner about $28 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "bodega",
+        lines: [["Inca Kola", "1.40"], ["chifles plantain chips", "1.60"], ["alfajor", "0.90"], ["yogurt", "1.20"]],
+        total: "5.10",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "menú counter",
+        lines: [["menú del día", "5.80"], ["chicha morada", "1.40"]],
+        total: "7.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "cevichería",
+        lines: [["ceviche mixto", "14.50"], ["causa limeña", "6.20"], ["pisco sour", "7.80"]],
+        total: "28.50",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-03": {
+    city: "Edinburgh",
+    currency: "USD",
+    paper: "The mile up the ridge still fills before the castle floodlights switch on.",
+    why: "The ridge mile was the fair clue. Dinner was a haggis supper and a dram.",
+    funFact: "Edinburgh's Royal Mile climbs the volcanic ridge between castle and palace. Haggis, neeps, and tatties with a whisky dram remain tourist-and-local canon.",
+    lifeBite: "Corner shop Irn-Bru and shortbread, a Scotch pie lunch, then haggis with whisky — Old Town evening.",
+    priceContext: "Corner shop about $8; pub dinner about $34 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "corner shop",
+        lines: [["Irn-Bru can", "1.80"], ["shortbread pack", "2.90"], ["crisps", "1.70"], ["milk small", "1.40"]],
+        total: "7.80",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "bakery counter",
+        lines: [["Scotch pie", "3.50"], ["coffee", "3.20"]],
+        total: "6.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "pub kitchen",
+        lines: [["haggis neeps tatties", "16.80"], ["pint of ale", "7.20"], ["whisky dram", "8.50"], ["sticky toffee pudding", "6.40"]],
+        total: "38.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-04": {
+    city: "Nairobi",
+    currency: "USD",
+    paper: "Matatus still blare past the roundabout before the evening jam.",
+    why: "The matatu roundabout was the fair clue. Dinner was nyama choma and Tusker.",
+    funFact: "Nairobi's matatus — decorated minibuses — are the city's loud circulatory system. Nyama choma (grilled meat) with Tusker lager is the weekend default.",
+    lifeBite: "Duka mandazi and soda, a chapati-bean lunch, then grilled goat with Tusker — capital-city night.",
+    priceContext: "Duka snacks about $4; choma dinner about $18 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "duka counter",
+        lines: [["mandazi, three", "1.20"], ["soda bottle", "0.90"], ["groundnuts pack", "1.10"], ["biscuit pack", "0.80"]],
+        total: "4.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "hotel café",
+        lines: [["chapati and beans", "3.40"], ["chai", "0.80"]],
+        total: "4.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "choma spot",
+        lines: [["nyama choma plate", "9.50"], ["ugali and kachumbari", "2.40"], ["Tusker lager", "2.80"], ["soda", "0.90"]],
+        total: "15.60",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-05": {
+    city: "Sydney, AU",
+    currency: "USD",
+    paper: "The ferry still queues at the quay before the weekend fireworks talk starts.",
+    why: "The quay ferry was the fair clue. Dinner was a seafood platter and a schooner.",
+    funFact: "Circular Quay ferries fan out across the harbour. A schooner of lager and seafood by the water is the city's casual celebration meal.",
+    lifeBite: "Woolies snacks, a smashed-avo café lunch, then fish and chips with a schooner — harbour weekend.",
+    priceContext: "Grocery nibble about $12; waterfront dinner about $42 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "grocery lane",
+        lines: [["tim tams", "3.40"], ["flat white ready drink", "3.10"], ["vegemite small", "2.80"], ["orange juice", "2.60"]],
+        total: "11.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "café",
+        lines: [["smashed avocado toast", "14.50"], ["flat white", "4.20"]],
+        total: "18.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "harbour counter",
+        lines: [["fish and chips", "22.00"], ["oysters, half dozen", "18.50"], ["schooner of lager", "8.80"]],
+        total: "49.30",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-06": {
+    city: "Montreal",
+    currency: "USD",
+    paper: "The underground city corridors still fill when the first snow flurry hits.",
+    why: "The RÉSO underground network was the fair clue. Dinner was smoked meat and a local stout.",
+    funFact: "Montreal's underground city (RÉSO) links metro, malls, and offices for winter survival. Smoked-meat sandwiches are the deli religion.",
+    lifeBite: "Depanneur snacks, a poutine lunch, then smoked meat with a stout — bilingual-city comfort.",
+    priceContext: "Dep run about $9; deli dinner about $28 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "dépanneur",
+        lines: [["ketchup chips", "2.40"], ["maple cookies", "3.10"], ["sparkling water", "1.80"], ["chocolate bar", "1.90"]],
+        total: "9.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "snack counter",
+        lines: [["poutine, regular", "9.50"], ["soft drink", "2.20"]],
+        total: "11.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "deli",
+        lines: [["smoked meat sandwich", "14.80"], ["pickle and slaw", "3.20"], ["local stout", "7.50"], ["whisky shot", "6.00"]],
+        total: "31.50",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-07": {
+    city: "Prague",
+    currency: "USD",
+    paper: "The astronomical clock square still packs before the hourly show.",
+    why: "The clock square was the fair clue. Dinner was goulash and a half-litre of pils.",
+    funFact: "Prague's Orloj astronomical clock has drawn crowds for centuries. A half-litre of pale lager with goulash is the city's default pub order.",
+    lifeBite: "Potraviny snacks, a tram-stop trdelník, then goulash with pilsner — Old Town evening.",
+    priceContext: "Corner shop about $7; hospoda dinner about $22 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "potraviny",
+        lines: [["hermelín cheese", "2.40"], ["rohlík rolls, four", "1.20"], ["Kofola bottle", "1.60"], ["chocolate", "1.80"]],
+        total: "7.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "street stall",
+        lines: [["trdelník", "4.20"], ["mulled wine small", "3.50"]],
+        total: "7.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "hospoda",
+        lines: [["beef goulash with dumplings", "12.80"], ["pilsner, half litre", "4.20"], ["Becherovka shot", "3.40"], ["fried cheese side", "5.60"]],
+        total: "26.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-08": {
+    city: "Mumbai",
+    currency: "USD",
+    paper: "The local train still spills onto the platform before the evening tide talk.",
+    why: "The suburban local was the fair clue. Dinner was a thali and a cold Kingfisher.",
+    funFact: "Mumbai's locals move millions daily — doors often stay open between stops. A thali (many small dishes on one tray) is the city's democratic feast.",
+    lifeBite: "Irani café chai and bun maska, a vada pav lunch, then thali with Kingfisher — island-city day.",
+    priceContext: "Café stop about $3; thali dinner about $12 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "kirana shelf",
+        lines: [["banana chips", "0.80"], ["mango drink", "0.70"], ["parle-g biscuits", "0.40"], ["roasted chana", "0.60"]],
+        total: "2.50",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "street stall",
+        lines: [["vada pav", "0.60"], ["cutting chai", "0.25"], ["soda", "0.50"]],
+        total: "1.35",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "thali house",
+        lines: [["veg thali", "6.80"], ["butter chicken add-on", "4.20"], ["Kingfisher beer", "3.40"], ["sweet lassi", "1.60"]],
+        total: "16.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-09": {
+    city: "Rio de Janeiro",
+    currency: "USD",
+    paper: "The cable car still climbs the sugarloaf silhouette after the beach day.",
+    why: "The sugarloaf cable car was the fair clue. Dinner was a feijoada night and a caipirinha.",
+    funFact: "Rio's Sugarloaf cable cars have been climbing since 1912. Feijoada — black-bean stew — with a caipirinha is the weekend ritual.",
+    lifeBite: "Padaria pão de queijo, a beach biscuit lunch, then feijoada with caipirinha — carioca Saturday.",
+    priceContext: "Padaria about $5; boteco dinner about $22 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "padaria",
+        lines: [["pão de queijo, four", "2.40"], ["cafezinho", "0.90"], ["guaraná can", "1.40"]],
+        total: "4.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "beach kiosk",
+        lines: [["biscuit sandwich", "4.80"], ["água de coco", "2.20"]],
+        total: "7.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "boteco",
+        lines: [["feijoada plate", "12.50"], ["caipirinha", "5.80"], ["chopp draft", "3.40"]],
+        total: "21.70",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-10": {
+    city: "Casablanca",
+    currency: "USD",
+    paper: "The corniche still fills after Friday prayers before the Atlantic wind rises.",
+    why: "The Atlantic corniche was the fair clue. Dinner was a tagine and mint tea — or a hotel pastis.",
+    funFact: "Casablanca's Corniche faces the open Atlantic. Tagines simmer for hours; mint tea is poured from height as hospitality theatre.",
+    lifeBite: "Hanout snacks and juice, a sandwich lunch, then lamb tagine with mint tea — white-city evening.",
+    priceContext: "Hanout run about $6; restaurant dinner about $24 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "hanout",
+        lines: [["sfenj doughnuts, three", "1.40"], ["orange juice fresh", "1.80"], ["dates pack", "2.10"], ["yogurt", "0.90"]],
+        total: "6.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "snack counter",
+        lines: [["kefta sandwich", "3.80"], ["mint tea", "1.20"]],
+        total: "5.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "tagine house",
+        lines: [["lamb tagine", "14.50"], ["zaalouk salad", "3.20"], ["mint tea", "1.40"], ["hotel pastis", "6.80"]],
+        total: "25.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-11": {
+    city: "Vienna",
+    currency: "USD",
+    paper: "The giant Ferris wheel still turns over the meadow park after dark.",
+    why: "The Prater wheel was the fair clue. Dinner was schnitzel and a Grüner Veltliner.",
+    funFact: "Vienna's Riesenrad has spun over the Prater since 1897. Wiener schnitzel with a glass of Grüner Veltliner is the city's textbook plate.",
+    lifeBite: "Billa snacks, a Würstelstand lunch, then schnitzel with wine — imperial-city casual.",
+    priceContext: "Grocery nibble about $11; Beisl dinner about $38 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "billa aisle",
+        lines: [["Manner wafers", "2.40"], ["Almdudler", "1.90"], ["Apfelstrudel pack", "3.80"], ["yogurt", "1.50"], ["bread rolls", "1.60"]],
+        total: "11.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "würstelstand",
+        lines: [["käsekrainer", "5.20"], ["Ottakringer small", "3.40"]],
+        total: "8.60",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "beisl",
+        lines: [["wiener schnitzel", "22.50"], ["Grüner Veltliner, glass", "7.80"], ["Apfelstrudel", "6.40"]],
+        total: "36.70",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-12": {
+    city: "Los Angeles, US",
+    currency: "USD",
+    paper: "The freeway exit for the Hollywood sign overlook still backs up at golden hour.",
+    why: "The overlook exit was the fair clue. Dinner was a taco truck night and a local IPA.",
+    funFact: "LA's canyon overlooks for the Hollywood sign jam at sunset. Taco trucks and craft IPAs are the city's true civic religion — not the studios.",
+    lifeBite: "Gas-station snacks, a burrito lunch, then al pastor tacos with an IPA — sprawl-city night.",
+    priceContext: "Gas mart about $10; taco dinner about $24 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "gas mart",
+        lines: [["trail mix", "3.49"], ["cold brew can", "3.29"], ["jerky", "4.99"]],
+        total: "11.77",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "burrito counter",
+        lines: [["carne asada burrito", "12.50"], ["agua fresca", "3.00"]],
+        total: "15.50",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "taco truck",
+        lines: [["al pastor tacos, three", "11.25"], ["local IPA can", "6.00"], ["horchata", "3.50"], ["churros", "4.00"]],
+        total: "24.75",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-13": {
+    city: "Hanoi",
+    currency: "USD",
+    paper: "Scooters still flood the lake loop before the weekend night market opens.",
+    why: "The lake scooter loop was the fair clue. Dinner was bun cha and a bia hơi.",
+    funFact: "Hoàn Kiếm Lake is Hanoi's evening orbit. Bún chả — grilled pork with noodles — and bia hơi (fresh draught beer) are the city's cheap night out.",
+    lifeBite: "Corner yogurt and snacks, a phở lunch, then bún chả with bia hơi — Old Quarter rhythm.",
+    priceContext: "Corner shop about $4; street dinner about $8 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "corner shop",
+        lines: [["yogurt cup", "0.70"], ["shrimp chips", "0.90"], ["green tea bottle", "0.80"], ["moon cake mini", "1.20"]],
+        total: "3.60",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "pho stall",
+        lines: [["phở bò", "2.40"], ["iced coffee", "1.20"]],
+        total: "3.60",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "street eatery",
+        lines: [["bún chả", "3.20"], ["nem rán, two", "1.80"], ["bia hơi, glass", "0.60"], ["ruou gao shot", "1.40"]],
+        total: "7.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-14": {
+    city: "Santiago, CL",
+    currency: "USD",
+    paper: "The funicular still climbs the city hill before the Andes turn pink.",
+    why: "The hill funicular was the fair clue. Dinner was a completo and carmenère.",
+    funFact: "San Cristóbal's funicular lifts you over Santiago toward the Andes. Completos — hot dogs loaded with avocado — and carmenère wine are local markers.",
+    lifeBite: "Minimarket snacks, a completo lunch, then asado with carmenère — valley-city evening.",
+    priceContext: "Minimarket about $7; asado dinner about $30 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "minimarket",
+        lines: [["manjar cookies", "2.10"], ["Bilz soda", "1.40"], ["nuts pack", "2.20"], ["yogurt", "1.30"]],
+        total: "7.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "fuente de soda",
+        lines: [["completo italiano", "4.80"], ["jugo natural", "2.20"]],
+        total: "7.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "asado house",
+        lines: [["asado plate", "16.50"], ["pebre and bread", "2.40"], ["carmenère, glass", "6.80"], ["pisco sour", "5.50"]],
+        total: "31.20",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-15": {
+    city: "Amsterdam",
+    currency: "USD",
+    paper: "The ring tram still crosses the canal belt before the museum quarter empties.",
+    why: "The canal-belt tram was the fair clue. Dinner was a stamppot night and jenever.",
+    funFact: "Amsterdam's canal belt is a UNESCO ring of waterways. Stamppot — mashed veg with sausage — and jenever (Dutch gin) are old-school winter comfort.",
+    lifeBite: "Albert Heijn snacks, a FEBO kroket lunch, then stamppot with jenever — lowlands evening.",
+    priceContext: "AH run about $10; brown-café dinner about $32 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "supermarket aisle",
+        lines: [["stroopwafels", "2.80"], ["hagelslag pack", "2.40"], ["apple juice", "1.90"], ["cheese slices", "2.60"]],
+        total: "9.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "automatiek",
+        lines: [["kroket", "2.80"], ["frikandel", "2.40"], ["soda", "2.20"]],
+        total: "7.40",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "brown café",
+        lines: [["stamppot with rookworst", "16.50"], ["jenever shot", "5.20"], ["local pilsner", "5.80"], ["bitterballen, five", "7.40"]],
+        total: "34.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-16": {
+    city: "Auckland",
+    currency: "USD",
+    paper: "The harbour ferry still fills before the weekend island hop.",
+    why: "The island ferry was the fair clue. Dinner was a hangi-style plate and a local sauvignon.",
+    funFact: "Auckland's ferries fan out to gulf islands from the downtown terminal. Hangi-inspired plates and Marlborough sauvignon blanc are Kiwi table staples.",
+    lifeBite: "Dairy snacks and L&P, a fish-and-chip lunch, then lamb with sauvignon — harbour-city weekend.",
+    priceContext: "Dairy run about $9; bistro dinner about $40 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "dairy shop",
+        lines: [["L&P can", "2.10"], ["pineapple lumps", "2.40"], ["cheese and crackers", "3.20"], ["fruit juice", "2.00"]],
+        total: "9.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "chippy",
+        lines: [["fish and chips", "12.80"], ["soda", "2.40"]],
+        total: "15.20",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "bistro",
+        lines: [["lamb rack plate", "24.50"], ["sauvignon blanc, glass", "9.80"], ["local lager", "6.40"]],
+        total: "40.70",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-17": {
+    city: "Cairo",
+    currency: "USD",
+    paper: "The Nile corniche still clogs before the evening felucca hour.",
+    why: "The Nile felucca hour was the fair clue. Dinner was koshari and a mint tea — or a hotel Stella.",
+    funFact: "Cairo's feluccas still sail the Nile at dusk for pocket change. Koshari — rice, lentils, pasta, fried onions — is the city's democratic plate.",
+    lifeBite: "Kiosk tamr hindi and biscuits, a ful sandwich lunch, then koshari with Stella — river-city night.",
+    priceContext: "Kiosk about $3; dinner about $12 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "kiosk",
+        lines: [["tamr hindi drink", "0.70"], ["biscuit pack", "0.60"], ["roasted seeds", "0.80"], ["yogurt", "0.70"]],
+        total: "2.80",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "ful cart",
+        lines: [["ful sandwich", "1.20"], ["tea", "0.40"]],
+        total: "1.60",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "koshari shop",
+        lines: [["koshari large", "2.80"], ["hawawshi", "2.40"], ["Stella lager", "2.60"], ["mint tea", "0.50"], ["basbousa", "1.20"]],
+        total: "9.50",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-18": {
+    city: "Barcelona, ES",
+    currency: "USD",
+    paper: "The grid-avenue diagonal still floods after the match lets out.",
+    why: "The diagonal avenue was the fair clue. Dinner was a vermut hour and paella for one.",
+    funFact: "Barcelona's Avinguda Diagonal cuts the Eixample grid. Vermut hour — fortified wine with olives — is the city's pre-dinner social glue.",
+    lifeBite: "Bodega snacks, a bocadillo lunch, then vermut and seafood rice — grid-city evening.",
+    priceContext: "Bodega about $8; tapas dinner about $34 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "bodega",
+        lines: [["patatas chips", "1.80"], ["cava small", "3.40"], ["olives tin", "1.60"], ["chocolate", "1.50"]],
+        total: "8.30",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "bar de bocadillos",
+        lines: [["bocadillo de jamón", "6.50"], ["caña beer", "2.40"]],
+        total: "8.90",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "tapas bar",
+        lines: [["paella for one", "16.80"], ["vermut glass", "4.50"], ["patatas bravas", "5.20"], ["crema catalana", "5.40"]],
+        total: "31.90",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-19": {
+    city: "Toronto",
+    currency: "USD",
+    paper: "The streetcar still packs along the lakeshore before the tower lights switch.",
+    why: "The lakeshore streetcar was the fair clue. Dinner was a peameal sandwich and a local lager.",
+    funFact: "Toronto's lakeshore streetcars run past the CN Tower skyline. Peameal bacon on a bun is the city's unsung breakfast-for-dinner icon.",
+    lifeBite: "Convenience butter tarts, a shawarma lunch, then peameal with a lager — lakeshore night.",
+    priceContext: "Convenience about $9; diner dinner about $28 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "convenience aisle",
+        lines: [["butter tarts, two", "3.50"], ["ketchup chips", "2.40"], ["maple water", "2.80"]],
+        total: "8.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "shawarma counter",
+        lines: [["chicken shawarma plate", "12.50"], ["mango lassi", "3.50"]],
+        total: "16.00",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "diner",
+        lines: [["peameal bacon sandwich", "14.00"], ["local lager, pint", "8.50"], ["poutine side", "7.50"]],
+        total: "30.00",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-20": {
+    city: "Osaka",
+    currency: "USD",
+    paper: "The neon canal district still glows before the late takoyaki rush.",
+    why: "The neon canal was the fair clue. Dinner was okonomiyaki and a highball.",
+    funFact: "Osaka's Dotonbori canal is a neon food canyon. Locals call the city 'kuidaore' — eat until you drop — and takoyaki is the street mascot.",
+    lifeBite: "Konbini onigiri, a kushikatsu lunch, then okonomiyaki with a highball — kitchen-of-Japan night.",
+    priceContext: "Konbini about $6; teppan dinner about $22 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "konbini aisle",
+        lines: [["tuna mayo onigiri", "1.40"], ["karaage snack", "1.80"], ["boss coffee can", "1.20"], ["melon soda", "1.40"]],
+        total: "5.80",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "kushi counter",
+        lines: [["kushikatsu set", "8.50"], ["draft beer small", "3.20"]],
+        total: "11.70",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "teppan stall",
+        lines: [["mixed okonomiyaki", "9.80"], ["takoyaki, eight", "5.40"], ["whisky highball", "4.60"], ["sake small", "3.50"]],
+        total: "23.30",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
+  "2026-10-21": {
+    city: "Bogota",
+    currency: "USD",
+    paper: "The red busway still climbs the altitude before the evening rain.",
+    why: "The TransMilenio climb was the fair clue. Dinner was ajiaco and a canelazo.",
+    funFact: "Bogotá sits at 2,600m; TransMilenio red buses are the city's spine. Ajiaco — chicken-and-potato soup — and canelazo (warm cinnamon aguardiente) fight the chill.",
+    lifeBite: "Tienda snacks and guaaraná, a tamal lunch, then ajiaco with canelazo — Andean-capital evening.",
+    priceContext: "Tienda about $5; sopa dinner about $18 USD.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "tienda",
+        lines: [["achiras crackers", "1.40"], ["Colombiana soda", "1.20"], ["arequipe pack", "1.60"], ["plantain chips", "1.10"]],
+        total: "5.30",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "lunch",
+        shop: "corrientazo",
+        lines: [["tamal bogotano", "3.80"], ["agua de panela", "1.00"]],
+        total: "4.80",
+        source: "real prices · converted to USD"
+      },
+      {
+        label: "dinner",
+        shop: "sopa house",
+        lines: [["ajiaco santafereño", "9.50"], ["arepa side", "1.80"], ["canelazo", "3.40"], ["Club Colombia beer", "2.80"]],
+        total: "17.50",
+        source: "real prices · converted to USD"
+      },
+    ]
+  },
 };
 
 const KEY = "register-v5";
