@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>The Register</title>
+<style>
+  :root {
+    --ink: #241f18;
+    --paper: #f7f1e4;
+    --paper2: #efe6d4;
+    --cream: #fffaf0;
+    --rule: #d2c6b0;
+    --red: #b42318;
+    --muted: #7a7163;
+    --ok: #2f6d4f;
+    --hot: #c2410c;
+    --tip: #8a1f14;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background:
+    radial-gradient(ellipse at top, #3a342c 0%, #1f1c18 70%);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+  body { min-height: 100dvh; display: flex; justify-content: center; padding: 18px 12px; }
+  .frame {
+    width: 100%; max-width: 520px; min-height: calc(100dvh - 36px); background: var(--paper);
+    padding: 30px 26px 52px; border-radius: 10px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.04);
+  }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 12px; margin-bottom: 20px; }
+  .mast { font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; text-align: center; color: var(--tip); }
+  h1 { font-size: 46px; line-height: 0.95; text-align: center; margin: 8px 0; font-weight: 800; letter-spacing: -0.02em; }
+  .date { text-align: center; font-size: 14px; color: var(--muted); }
+  .streak { text-align: center; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .lede { font-size: 16px; line-height: 1.45; margin: 0 0 14px; color: #3d372e; }
+  .tip {
+    border: 1px solid #d8c7a8; border-left: 5px solid var(--tip);
+    padding: 14px 16px; margin: 0 0 18px; background: linear-gradient(180deg, #fff8ea, #f3e8d4);
+    border-radius: 2px 8px 8px 2px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .tip .kicker {
+    display: inline-block; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #fff; background: var(--tip); padding: 3px 8px; border-radius: 999px; margin-bottom: 8px;
+    font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700;
+  }
+  .tip .body { font-size: 17px; line-height: 1.4; }
+  .stage {
+    display: inline-block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 8px; font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .receipt {
+    background: var(--cream); border: 1px dashed #b7a789; padding: 20px 16px 16px;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 14px;
+    box-shadow: 0 10px 24px rgba(60,40,10,0.08); position: relative;
+  }
+  .receipt:before, .receipt:after {
+    content: ""; position: absolute; left: 8px; right: 8px; height: 6px;
+    background: radial-gradient(circle, transparent 3px, var(--paper) 3.5px) 0 0 / 10px 6px repeat-x;
+  }
+  .receipt:before { top: -3px; }
+  .receipt:after { bottom: -3px; transform: rotate(180deg); }
+  .receipt .shop { text-align: center; font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 14px; color: #5c5346; }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; }
+  .row span:first-child { flex: 1; }
+  .total { border-top: 2px solid var(--ink); margin-top: 10px; padding-top: 10px; font-weight: 700; font-size: 15px; }
+  label { display: block; font-size: 14px; margin: 20px 0 6px; }
+  input {
+    width: 100%; min-height: 50px; padding: 12px 14px; border: 1px solid #cbb996;
+    background: var(--cream); font: inherit; font-size: 17px; border-radius: 8px;
+  }
+  input:focus { outline: 2px solid #c45a2a; outline-offset: 1px; border-color: #c45a2a; }
+  .go, .ghost {
+    width: 100%; margin-top: 10px; min-height: 50px; padding: 12px; border: 0;
+    background: var(--ink); color: var(--paper); font: inherit; font-size: 16px; cursor: pointer;
+    border-radius: 8px;
+  }
+  .go:hover { background: #3a3228; }
+  .ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .log { list-style: none; padding: 0; margin: 14px 0 0; }
+  .log li { font-size: 15px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+  .hot { color: var(--hot); }
+  .ok { color: var(--ok); }
+  .share {
+    margin-top: 16px; padding: 14px; border: 1px solid #cbb996; background: var(--paper2);
+    font-family: ui-monospace, Menlo, monospace; font-size: 16px; text-align: center; border-radius: 8px;
+  }
+  .fine { margin-top: 28px; font-size: 11px; color: var(--muted); line-height: 1.45; }
+  .fine a { color: var(--tip); }
+  .msg { margin-top: 14px; font-size: 17px; line-height: 1.35; }
+  .helpbtn {
+    float: right; border: 1px solid #cbb996; background: var(--cream);
+    font: inherit; font-size: 14px; padding: 4px 10px; cursor: pointer; border-radius: 999px;
+  }
+  .overlay {
+    position: fixed; inset: 0; background: rgba(26,24,20,0.72); display: flex;
+    align-items: center; justify-content: center; padding: 20px; z-index: 20;
+    pointer-events: auto;
+  }
+  .overlay[hidden] { display: none !important; }
+  .overlay .card {
+    background: var(--paper); max-width: 420px; width: 100%; padding: 24px;
+    border: 2px solid var(--ink); border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .overlay h2 { margin: 0 0 10px; font-size: 26px; }
+  .overlay p { margin: 0 0 10px; font-size: 15px; line-height: 1.45; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <header>
+    <button class="helpbtn" type="button" id="helpOpen">?</button>
+    <div class="mast">Evening edition</div>
+    <h1>The Register</h1>
+    <div class="date" id="dateline"></div>
+    <div class="streak" id="streak"></div>
+  </header>
+  <div id="game"></div>
+  <p class="fine">One daily: a real basket plus one local paper line. Prices stay in the city's own currency and are never converted to dollars. We only hide the symbol. Puzzle, not a newspaper. Not financial advice. Credit: <a href="https://prices.openfoodfacts.org" target="_blank" rel="noopener">Open Prices</a>.</p>
+</div>
+
+<div class="overlay" id="help" hidden>
+  <div class="card">
+    <div class="mast" style="margin-bottom:8px">Tonight's paper</div>
+    <h2>You're holding a stranger's tab</h2>
+    <p>One Tip from the local paper. One receipt with the currency mark ripped off. Somewhere in the world, that was lunch.</p>
+    <p><strong>The numbers never get converted.</strong> Whatever they paid locally is what you see. Yen stays yen-sized. Places that use cents keep decimals. We only hide the symbol.</p>
+    <p>Two wrong guesses and the tab becomes <strong>lunch</strong>. Two more and it becomes <strong>dinner with a drink</strong>, something that actually belongs to that city.</p>
+    <p><strong>Guess the city.</strong> Six tries. Hotter or colder. No map.</p>
+    
+    <button class="go" type="button" id="helpClose">Open today's paper</button>
+  </div>
+</div>
+
+<script>
+/* Baskets built from Open Prices (prices.openfoodfacts.org), Sep 2026 pull.
+   Local paper lines are fair place clues, not fake news spirals. */
+const CITIES = [
+  ["Tokyo", 35.68, 139.69], ["Hiroshima", 34.39, 132.46], ["Osaka", 34.69, 135.50],
+  ["Reykjavik", 64.15, -21.94], ["Paris", 48.86, 2.35], ["Grenoble", 45.19, 5.72],
+  ["Aachen", 50.78, 6.08], ["Berlin", 52.52, 13.40], ["Bangkok", 13.76, 100.50],
+  ["São Paulo", -23.55, -46.63], ["Curitiba", -25.43, -49.27], ["New York", 40.71, -74.01],
+  ["Los Altos", 37.39, -122.11], ["Huntington Station", 40.85, -73.41], ["Melbourne", -37.81, 144.96],
+  ["Brisbane", -27.47, 153.03], ["Sydney", -33.87, 151.21], ["Dubai", 25.20, 55.27],
+  ["Abu Dhabi", 24.45, 54.38], ["London", 51.51, -0.13], ["Vienna", 48.21, 16.37],
+  ["Lisbon", 38.72, -9.14], ["Madrid", 40.42, -3.70], ["Rome", 41.90, 12.50],
+  ["Milan", 45.46, 9.19], ["Amsterdam", 52.37, 4.89], ["Copenhagen", 55.68, 12.57],
+  ["Stockholm", 59.33, 18.07], ["Oslo", 59.91, 10.75], ["Helsinki", 60.17, 24.94],
+  ["Seoul", 37.57, 126.98], ["Taipei", 25.03, 121.57], ["Singapore", 1.35, 103.82],
+  ["Hong Kong", 22.32, 114.17], ["Mumbai", 19.08, 72.88], ["Delhi", 28.61, 77.21],
+  ["Mexico City", 19.43, -99.13], ["Buenos Aires", -34.60, -58.38], ["Lima", -12.05, -77.04],
+  ["Bogotá", 4.71, -74.07], ["Santiago", -33.45, -70.67], ["Cape Town", -33.92, 18.42],
+  ["Lagos", 6.52, 3.38], ["Nairobi", -1.29, 36.82], ["Cairo", 30.04, 31.24],
+  ["Istanbul", 41.01, 28.98], ["Athens", 37.98, 23.73], ["Toronto", 43.65, -79.38],
+  ["Vancouver", 49.28, -123.12], ["Chicago", 41.88, -87.63], ["Miami", 25.76, -80.19],
+  ["Los Angeles", 34.05, -118.24], ["San Francisco", 37.77, -122.42], ["Seattle", 47.61, -122.33],
+  ["Boston", 42.36, -71.06], ["Washington", 38.91, -77.04], ["Honolulu", 21.31, -157.86],
+  ["Auckland", -36.85, 174.76], ["Jakarta", -6.21, 106.85], ["Manila", 14.60, 120.98],
+  ["Hanoi", 21.03, 105.85], ["Ho Chi Minh City", 10.82, 106.63], ["Tel Aviv", 32.09, 34.78],
+  ["Beirut", 33.89, 35.50], ["Doha", 25.29, 51.53], ["Riyadh", 24.71, 46.68],
+  ["Dublin", 53.35, -6.26], ["Edinburgh", 55.95, -3.19], ["Brussels", 50.85, 4.35],
+  ["Munich", 48.14, 11.58], ["Hamburg", 53.55, 9.99], ["Frankfurt", 50.11, 8.68],
+  ["Zurich", 47.38, 8.54], ["Geneva", 46.20, 6.14], ["Prague", 50.08, 14.44],
+  ["Warsaw", 52.23, 21.01], ["Budapest", 47.50, 19.04], ["Belo Horizonte", -19.92, -43.94]
+];
+
+const DAYS = {
+  "2026-09-14": {
+    city: "Hiroshima",
+    currency: "JPY",
+    paper: "Morning walkers still gather at the peace park by the river before the heat.",
+    why: "Local-style savory pancake for dinner. The park and the tab both pointed here.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "convenience aisle",
+        lines: [["camembert cheese bites", "297"], ["string cheese", "152"], ["blueberry yogurt", "181"], ["cocoa bran snack", "194"]],
+        total: "824",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "counter lunch",
+        lines: [["pork-egg-soba okonomiyaki", "960"], ["oolong tea", "400"]],
+        total: "1360",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "teppan dinner",
+        lines: [["shrimp okonomiyaki", "1310"], ["draft beer, medium", "580"], ["local sake, small", "550"]],
+        total: "2440",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-15": {
+    city: "Reykjavik",
+    currency: "ISK",
+    paper: "The tall concrete church still owns the skyline over the harbour.",
+    why: "The church was the fair clue. Dinner was harbour fish and a pint.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "corner grocer",
+        lines: [["health juice", "370"], ["blueberry cordial", "589"], ["tropical juice", "479"]],
+        total: "1438",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "harbour stand",
+        lines: [["hot dog", "890"], ["soda", "450"]],
+        total: "1340",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "harbour kitchen",
+        lines: [["fish and chips", "4290"], ["local lager, pint", "1690"]],
+        total: "5980",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-16": {
+    city: "Bangkok",
+    currency: "THB",
+    paper: "The elevated train over the wet shopping strip slowed again after the rain.",
+    why: "The Skytrain was the fair clue. Dinner was street noodles and a beer.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "7-counter",
+        lines: [["triple macarons creamy", "45"], ["shredded cheese blend", "209"], ["emmental block", "235"], ["pistachio milk", "23"]],
+        total: "512",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "soi stall",
+        lines: [["pad thai", "60"], ["iced tea", "20"]],
+        total: "80",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "night stall",
+        lines: [["boat noodles", "80"], ["grilled pork skewer", "40"], ["Chang, small bottle", "70"]],
+        total: "190",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-17": {
+    city: "São Paulo",
+    currency: "BRL",
+    paper: "The yellow metro line jammed before the derby crowd spilled out.",
+    why: "The metro derby line was the fair clue. Dinner was a chopp and a plate.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "atacado lane",
+        lines: [["golden flaxseed 200g", "6.55"], ["black pepper 50g", "13.99"], ["thyme flakes", "3.59"], ["integral rice", "6.98"], ["fresh milk 1L", "6.89"]],
+        total: "38.00",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "padaria",
+        lines: [["pão de queijo, six", "18.00"], ["cafezinho", "6.00"], ["guaraná, glass", "8.00"]],
+        total: "32.00",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "boteco",
+        lines: [["coxinha, two", "24.00"], ["chopp, draft", "16.00"], ["cachaça, shot", "12.00"]],
+        total: "52.00",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-18": {
+    city: "New York",
+    currency: "USD",
+    paper: "Weekend work on the crosstown train again. Bring a book.",
+    why: "The L train was the fair clue. Dinner was a slice city night.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "warehouse sample",
+        lines: [["mac & cheese", "10.99"], ["tonkotsu ramen", "9.29"], ["shrimp chips", "8.99"], ["sweet & spicy puffs", "7.69"]],
+        total: "36.96",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "corner slice",
+        lines: [["plain slice", "3.50"], ["fountain soda", "2.00"]],
+        total: "5.50",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "late counter",
+        lines: [["pepperoni slice", "4.50"], ["brooklyn lager", "8.00"], ["whiskey shot", "10.00"]],
+        total: "22.50",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-19": {
+    city: "Melbourne",
+    currency: "AUD",
+    paper: "The coastal tram was still packed after the match.",
+    why: "The tram number was the fair clue. Dinner was a parma and a pint.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "suburban market",
+        lines: [["smooth peanut butter", "5.95"], ["vanilla custard", "4.55"], ["wild pink salmon", "3.20"], ["orange juice", "2.50"], ["mango drink", "3.10"]],
+        total: "19.30",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "cafe counter",
+        lines: [["chicken parma", "26.00"], ["pot of lager", "6.50"]],
+        total: "32.50",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "pub dinner",
+        lines: [["chicken parma", "28.00"], ["pint", "14.00"], ["house wine, glass", "11.00"]],
+        total: "53.00",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-20": {
+    city: "Dubai",
+    currency: "AED",
+    paper: "The metro to the big mall by the ski slope is still the weekend default.",
+    why: "The metro stop was the fair clue. Dinner was a mixed grill and a mocktail, or a hotel pint.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "fresh counter",
+        lines: [["caramel crêpes", "11.99"], ["chocolate crêpes", "10.99"], ["hibiscus tea chilled", "19.95"], ["mango passion pop", "9.50"]],
+        total: "52.43",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "cafeteria",
+        lines: [["chicken shawarma", "18.00"], ["laban", "6.00"]],
+        total: "24.00",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "grill",
+        lines: [["mixed grill plate", "75.00"], ["fresh juice", "18.00"], ["hotel lager", "35.00"]],
+        total: "128.00",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-21": {
+    city: "Grenoble",
+    currency: "EUR",
+    paper: "The university tram still fills before lectures.",
+    why: "The tram letter was the fair clue. Dinner was alpine-city bistro.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "bio aisle",
+        lines: [["sheep yogurt 4-pack", "3.50"], ["soy drink 1L", "0.88"], ["coconut rice drink", "1.49"], ["cassoulet tray", "3.90"], ["olive oil", "12.21"]],
+        total: "21.98",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "formule midi",
+        lines: [["plat du jour", "14.50"], ["espresso", "1.50"]],
+        total: "16.00",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "bistro",
+        lines: [["tartiflette", "19.00"], ["vin de savoie, glass", "6.50"], ["génépi", "7.00"]],
+        total: "32.50",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  },
+  "2026-09-13": {
+    city: "Aachen",
+    currency: "EUR",
+    paper: "Sunday crowd still circles the old cathedral square.",
+    why: "The cathedral was the fair clue. Dinner was a printen town night.",
+    stages: [
+      {
+        label: "convenience",
+        shop: "rewe basket",
+        lines: [["edamame", "1.69"], ["chickpeas", "0.79"], ["hummus pine nuts", "1.69"], ["banana yogurt", "0.69"], ["decaffeinated coffee", "9.99"], ["spelt bread", "2.49"]],
+        total: "17.34",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "lunch",
+        shop: "market stall",
+        lines: [["sausage in a bun", "4.50"], ["pils, small", "3.20"]],
+        total: "7.70",
+        source: "real prices · currency mark removed"
+      },
+      {
+        label: "dinner",
+        shop: "brauhaus",
+        lines: [["sauerbraten plate", "18.90"], ["kölsch", "3.80"], ["schnaps", "4.50"]],
+        total: "27.20",
+        source: "real prices · currency mark removed"
+      }
+    ]
+  }
+};
+
+const KEY = "register-v5";
+
+
+function money(n, code) {
+  const x = Number(n);
+  const zero = ["JPY","KRW","ISK","VND","CLP"];
+  if (zero.includes(code)) return String(Math.round(x));
+  return x.toFixed(2);
+}
+
+
+function wrongCount(st) {
+  return (st.guesses || []).filter(g => !g.ok).length;
+}
+function stageIndex(st) {
+  const w = wrongCount(st);
+  if (w >= 4) return 2;
+  if (w >= 2) return 1;
+  return 0;
+}
+
+function todayKey() {
+  const iso = new Date().toISOString().slice(0, 10);
+  return DAYS[iso] ? iso : "2026-09-15";
+}
+
+function fmtDate(iso) {
+  const [y, m, day] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, day)).toLocaleDateString("en-US", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC"
+  });
+}
+
+function dist(a, b) {
+  const R = 6371, toR = x => x * Math.PI / 180;
+  const dLat = toR(b[0] - a[0]), dLon = toR(b[1] - a[1]);
+  const s = Math.sin(dLat/2)**2 + Math.cos(toR(a[0])) * Math.cos(toR(b[0])) * Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+
+function findCity(name) {
+  const n = name.trim().toLowerCase();
+  return CITIES.find(c => c[0].toLowerCase() === n);
+}
+
+function heat(km) {
+  if (km < 1) return { t: "that's the city", cls: "ok" };
+  if (km < 250) return { t: "burning", cls: "hot" };
+  if (km < 800) return { t: "hot", cls: "hot" };
+  if (km < 2000) return { t: "warm", cls: "hot" };
+  if (km < 5000) return { t: "cold", cls: "" };
+  return { t: "freezing", cls: "" };
+}
+
+function loadState(day) {
+  try {
+    const all = JSON.parse(localStorage.getItem(KEY) || "{}");
+    return all[day] || { guesses: [], done: false, won: false };
+  } catch { return { guesses: [], done: false, won: false }; }
+}
+
+function saveState(day, state) {
+  const all = JSON.parse(localStorage.getItem(KEY) || "{}");
+  all[day] = state;
+  localStorage.setItem(KEY, JSON.stringify(all));
+}
+
+function streakCount() {
+  const all = JSON.parse(localStorage.getItem(KEY) || "{}");
+  const keys = Object.keys(DAYS).sort().reverse();
+  let n = 0;
+  for (const k of keys) {
+    if (all[k] && all[k].won) n++;
+    else if (all[k] && all[k].done) break;
+    else if (k !== DAY) break;
+  }
+  return n;
+}
+
+function scoreDots(n, won, max) {
+  const filled = won ? n : max;
+  return "●".repeat(filled) + "○".repeat(Math.max(0, max - filled));
+}
+
+const DAY = todayKey();
+const P = DAYS[DAY];
+const num = DAY.slice(8);
+let state = loadState(DAY);
+
+document.getElementById("dateline").textContent = fmtDate(DAY);
+
+function render() {
+  document.getElementById("streak").textContent = streakCount() ? (`streak ${streakCount()}`) : "";
+  const S = P.stages[stageIndex(state)];
+  const rows = S.lines.map(([n, p]) => `<div class="row"><span>${n}</span><span>${money(p, P.currency)}</span></div>`).join("");
+  const log = state.guesses.map(g => {
+    const h = heat(g.km);
+    return `<li class="${g.ok ? "ok" : h.cls}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}</li>`;
+  }).join("");
+  let end = "";
+  if (state.done) {
+    end = `<p class="msg ${state.won ? "ok" : ""}">${state.won ? "You got it." : "It was " + P.city + "."} ${P.why}</p>
+      <div class="share" id="share">Tab ${num}  ${scoreDots(state.guesses.length, state.won, 6)}</div>
+      <button class="go" type="button" id="copyBtn">Copy the score</button>`;
+  }
+  const left = 6 - state.guesses.length;
+  document.getElementById("game").innerHTML = `
+    <p class="lede">Read the tip. Read the tab. Guess the city. Two misses unlock lunch. Two more unlock dinner with a drink.</p>
+    <div class="tip"><div class="kicker">Tip</div><div class="body">${P.paper}</div></div>
+    <div class="stage">${S.label}</div>
+    <div class="receipt">
+      <div class="shop">${S.shop}</div>
+      ${rows}
+      <div class="row total"><span>total</span><span>${money(S.total, P.currency)}</span></div>
+    </div>
+    ${state.done ? "" : `
+      <label for="city">Guess the city</label>
+      <input id="city" list="citylist" autocomplete="off" placeholder="e.g. Lisbon" />
+      <datalist id="citylist">${CITIES.map(c => `<option value="${c[0]}">`).join("")}</datalist>
+      <button class="go" type="button" id="guessBtn">${left} left · Enter works</button>
+    `}
+    <ul class="log">${log}</ul>
+    ${end}
+  `;
+  const input = document.getElementById("city");
+  if (input) {
+    input.focus();
+    input.addEventListener("keydown", e => { if (e.key === "Enter") guessCity(); });
+  }
+  const gb = document.getElementById("guessBtn");
+  if (gb) gb.onclick = guessCity;
+  const cb = document.getElementById("copyBtn");
+  if (cb) cb.onclick = copyShare;
+}
+
+function guessCity() {
+  if (state.done) return;
+  const input = document.getElementById("city");
+  const hit = findCity(input.value);
+  if (!hit) { input.value = ""; input.placeholder = "pick a city from the list"; return; }
+  if (state.guesses.some(g => g.name === hit[0])) { input.value = ""; return; }
+  const ans = findCity(P.city);
+  const km = dist([hit[1], hit[2]], [ans[1], ans[2]]);
+  const ok = hit[0] === P.city;
+  state.guesses.push({ name: hit[0], km, ok });
+  if (ok || state.guesses.length >= 6) {
+    state.done = true;
+    state.won = ok;
+  }
+  saveState(DAY, state);
+  render();
+}
+
+function copyShare() {
+  const t = document.getElementById("share").textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).catch(() => selectShare());
+  } else selectShare();
+}
+function selectShare() {
+  const el = document.getElementById("share");
+  const r = document.createRange(); r.selectNodeContents(el);
+  const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+}
+
+const help = document.getElementById("help");
+document.getElementById("helpOpen").onclick = () => { help.hidden = false; };
+document.getElementById("helpClose").onclick = () => {
+  help.hidden = true;
+  localStorage.setItem(KEY + "-helped-v7", "1");
+};
+if (!localStorage.getItem(KEY + "-helped-v7")) help.hidden = false;
+
+render();
+</script>
+</body>
+</html>
