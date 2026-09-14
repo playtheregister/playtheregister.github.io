@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: results-replay-print-2026-09-14 -->
+<!-- pages-bust: register-receipt-dispense-2026-09-14 -->
 <meta name="description" content="A free daily puzzle: one local paper tip, one stranger's receipt in USD, guess the city. Six tries. Hotter or colder." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -185,18 +185,18 @@
   .heat-banner.heat-freezing { background: linear-gradient(135deg, #64748b, #1e3a5f); }
   .heat-banner.heat-ok { background: linear-gradient(135deg, #4ade80, #2f6d4f); }
 
-  /* Final Results overlay — paper-feed / receipt print (mobile + PC) */
+  /* Final Results overlay — cash-register receipt dispense (mobile + PC) */
   .results-overlay {
     position: fixed; top: 0; right: 0; bottom: 0; left: 0;
     z-index: 30; width: 100%;
     height: 100%; min-height: 100dvh;
-    background: rgba(26,24,20,0.9);
+    background: rgba(22,20,17,0.92);
     display: flex; align-items: center; justify-content: center;
     padding:
       max(12px, env(safe-area-inset-top, 0px))
-      max(12px, env(safe-area-inset-right, 0px))
+      max(14px, env(safe-area-inset-right, 0px))
       max(12px, env(safe-area-inset-bottom, 0px))
-      max(12px, env(safe-area-inset-left, 0px));
+      max(14px, env(safe-area-inset-left, 0px));
     overflow: hidden;
     overscroll-behavior: none;
     touch-action: manipulation;
@@ -205,46 +205,79 @@
   .results-overlay[hidden] { display: none !important; }
   .results-overlay.is-printing { cursor: pointer; }
   .results-stage {
-    width: 100%; max-width: 460px; max-height: 100%;
+    width: 100%; max-width: 340px; max-height: 100%;
     margin: 0 auto; display: flex; flex-direction: column; min-height: 0;
   }
   .results-frame {
-    background: #2a2620; border-radius: 16px; padding: 16px 14px 18px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    background: linear-gradient(180deg, #2e2923 0%, #221e19 55%, #1a1713 100%);
+    border-radius: 14px 14px 10px 10px;
+    padding: 10px 10px 14px;
+    box-shadow:
+      0 22px 48px rgba(0,0,0,.5),
+      inset 0 1px 0 rgba(255,255,255,.06);
     flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column;
+    border: 1px solid rgba(0,0,0,.35);
+  }
+  .results-register-bar {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 2px 8px 8px;
+    position: relative;
+  }
+  .results-brand-stamp {
+    display: inline-block;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(232, 214, 180, 0.55);
+    border: 1px solid rgba(180, 150, 110, 0.28);
+    padding: 3px 10px 2px;
+    border-radius: 2px;
+    background: rgba(0,0,0,.18);
   }
   .results-slot {
     flex: 0 0 auto;
-    height: 22px; border-radius: 999px;
-    margin: 2px 14px 0; position: relative; z-index: 4;
+    height: 26px; border-radius: 3px;
+    margin: 0 6px; position: relative; z-index: 5;
     background:
-      linear-gradient(180deg, #050403 0%, #12100e 45%, #1a1714 70%, #0a0908 100%);
+      linear-gradient(180deg, #060504 0%, #0c0a08 38%, #15120f 62%, #080706 100%);
     box-shadow:
-      inset 0 5px 12px rgba(0,0,0,.92),
-      inset 0 -2px 3px rgba(255,255,255,.05),
-      0 1px 0 rgba(255,255,255,.04);
+      inset 0 7px 14px rgba(0,0,0,.95),
+      inset 0 -3px 5px rgba(0,0,0,.7),
+      inset 0 1px 0 rgba(255,255,255,.04),
+      0 1px 0 rgba(255,255,255,.05);
+    overflow: hidden;
   }
+  /* outer metal-ish lips / mouth surround */
   .results-slot::before {
-    content: ""; position: absolute; left: -8px; right: -8px; top: -5px; bottom: -5px;
-    border-radius: 999px; z-index: -1;
-    background: linear-gradient(180deg, #3f3830 0%, #2a2620 48%, #1c1915 100%);
+    content: ""; position: absolute; left: -7px; right: -7px; top: -7px; bottom: -6px;
+    border-radius: 5px; z-index: -1;
+    background:
+      linear-gradient(180deg, #4a433a 0%, #322c26 42%, #1f1b17 100%);
     box-shadow:
-      0 2px 6px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.08);
+      0 3px 8px rgba(0,0,0,.55),
+      inset 0 1px 0 rgba(255,255,255,.14),
+      inset 0 -1px 0 rgba(0,0,0,.45);
   }
+  /* thin metal strip across the mouth */
   .results-slot::after {
-    content: ""; position: absolute; left: 10%; right: 10%; top: 42%; height: 2px;
-    border-radius: 2px; background: rgba(0,0,0,.55);
-    box-shadow: 0 1px 0 rgba(255,255,255,.04);
+    content: ""; position: absolute; left: 6%; right: 6%; top: 45%; height: 3px;
+    border-radius: 1px;
+    background: linear-gradient(180deg, #1a1612 0%, #3a342c 45%, #0e0c0a 100%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.06),
+      inset 0 1px 0 rgba(0,0,0,.6);
   }
   .results-printer {
     overflow: hidden; height: 0;
-    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 108px);
-    margin-top: -12px;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 120px);
+    margin-top: -14px;
     min-height: 0;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     position: relative; z-index: 1;
+    /* soft gloom under the slot so paper emerges from dark */
+    mask-image: linear-gradient(180deg, transparent 0, #000 10px, #000 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10px, #000 100%);
   }
   .results-printer.instant .results-sheet {
     transition: none !important;
@@ -252,12 +285,21 @@
   .results-printer.printed {
     overflow-x: hidden;
     overflow-y: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   .results-sheet {
-    width: auto; max-width: none; margin: 0 12px; background: var(--paper);
-    border-radius: 0 0 10px 10px; border: none;
-    box-shadow: 0 4px 14px rgba(0,0,0,.18);
-    padding: 28px 20px 26px; position: relative;
+    width: auto; max-width: none; margin: 0 10px;
+    background:
+      linear-gradient(180deg, #fffaf0 0%, var(--cream) 28%, #f3ead8 100%);
+    border-radius: 0 0 2px 2px; border: none;
+    border-left: 1px solid rgba(180, 150, 110, 0.25);
+    border-right: 1px solid rgba(180, 150, 110, 0.25);
+    border-bottom: 1px solid rgba(160, 130, 90, 0.28);
+    box-shadow:
+      0 2px 8px rgba(0,0,0,.12),
+      inset 0 0 40px rgba(210, 180, 120, 0.08);
+    padding: 22px 14px 20px; position: relative;
     transform: translate3d(0, -100%, 0);
     will-change: transform;
     transition:
@@ -266,39 +308,82 @@
   }
   .results-sheet.is-feeding {
     transform: translate3d(0, 0, 0);
-    box-shadow: 0 16px 40px rgba(0,0,0,.34);
+    box-shadow:
+      0 10px 28px rgba(0,0,0,.32),
+      0 2px 0 rgba(0,0,0,.06),
+      inset 0 0 40px rgba(210, 180, 120, 0.08);
+  }
+  /* soft shadow just under emerging top edge while feeding */
+  .results-sheet.is-feeding:not(.is-printed)::before {
+    box-shadow: 0 6px 10px rgba(0,0,0,.18);
+  }
+  /* slight paper curl at bottom tip while feeding */
+  .results-sheet.is-feeding:not(.is-printed)::after {
+    content: ""; position: absolute; left: 4px; right: 4px; bottom: -1px; height: 14px;
+    pointer-events: none; z-index: 2;
+    background: linear-gradient(180deg, transparent 0%, rgba(40,30,15,.07) 55%, rgba(40,30,15,.14) 100%);
+    border-radius: 0 0 2px 2px;
+    box-shadow: 0 6px 10px rgba(0,0,0,.12);
   }
   .results-sheet.is-printed {
     transform: none;
     will-change: auto;
     transition: none;
-    box-shadow: 0 12px 30px rgba(0,0,0,.28);
+    box-shadow:
+      0 14px 32px rgba(0,0,0,.28),
+      inset 0 0 40px rgba(210, 180, 120, 0.08);
   }
+  /* serrated / perforated top edge */
   .results-sheet:before {
-    content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 10px;
+    content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 12px;
     background:
-      radial-gradient(circle at 5px 2px, transparent 3.2px, var(--paper) 3.4px) -1px 0 / 10px 10px repeat-x;
-    pointer-events: none;
+      radial-gradient(circle at 5px 3px, transparent 3.4px, var(--cream) 3.55px) 0 0 / 10px 12px repeat-x;
+    pointer-events: none; z-index: 1;
   }
-  .results-sheet:after {
-    content: ""; position: absolute; left: 6px; right: 6px; top: 9px; height: 1px;
+  /* faint dashed cut line under serration */
+  .results-sheet .receipt-cut {
+    height: 1px; margin: 2px 2px 10px;
     background: repeating-linear-gradient(
       90deg,
-      transparent 0 4px,
-      rgba(180, 150, 110, 0.35) 4px 5px
+      transparent 0 3px,
+      rgba(160, 130, 90, 0.4) 3px 5px
     );
-    pointer-events: none;
+  }
+  .receipt-tab-head {
+    text-align: center;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    color: #5c5346;
+    margin: 2px 0 4px;
+    line-height: 1.35;
+  }
+  .receipt-tab-stars {
+    font-size: 11px; letter-spacing: 0.12em; font-weight: 700;
+    color: var(--ink);
+  }
+  .receipt-tab-date {
+    font-size: 10px; letter-spacing: 0.06em; color: var(--muted);
+    margin-top: 2px;
   }
   .results-sheet .go,
   .results-sheet .ghost {
     min-height: 48px; touch-action: manipulation;
   }
-  .print-status-wrap { text-align: center; margin: 0 0 14px; }
+  .print-status-wrap {
+    text-align: center; margin: 0 0 12px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .print-status-wrap::before,
+  .print-status-wrap::after {
+    content: ""; flex: 1; height: 1px; max-width: 48px;
+    background: repeating-linear-gradient(90deg, transparent 0 2px, rgba(160,130,90,.45) 2px 4px);
+  }
   .print-status {
-    display: inline-block; background: var(--tip); color: #fff;
-    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-    padding: 5px 10px; border-radius: 999px;
-    font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700;
+    display: inline-block;
+    background: transparent; color: var(--tip);
+    border: 1px solid rgba(138, 31, 20, 0.45);
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 2px;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
     opacity: 0; transition: opacity .25s ease;
   }
   .print-status.show { opacity: 1; }
@@ -339,23 +424,23 @@
     margin-bottom: 8px;
   }
   .results-headline {
-    text-align: center; font-size: 32px; line-height: 1.05; margin: 0 0 6px; font-weight: 800;
+    text-align: center; font-size: 28px; line-height: 1.05; margin: 0 0 6px; font-weight: 800;
   }
   .results-headline.win { color: var(--ok); }
   .results-headline.lose { color: var(--tip); }
-  .results-sub { text-align: center; font-size: 15px; color: var(--muted); margin: 0 0 18px; }
+  .results-sub { text-align: center; font-size: 14px; color: var(--muted); margin: 0 0 14px; }
   .results-block {
-    background: var(--cream); border: 1px solid #cbb996; border-radius: 10px;
-    padding: 16px; margin: 0 0 14px;
+    background: rgba(255,250,240,0.72); border: 1px dashed #cbb996; border-radius: 4px;
+    padding: 14px 12px; margin: 0 0 12px;
   }
   .results-block h3 {
-    margin: 0 0 10px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif;
+    margin: 0 0 10px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   }
   .results-trail { list-style: none; padding: 0; margin: 0 0 12px; }
   .results-trail li {
-    font-size: 14px; padding: 8px 10px; margin: 0 0 4px; border-radius: 6px;
-    border-left: 4px solid var(--rule); background: rgba(255,255,255,0.5);
+    font-size: 13px; padding: 7px 8px; margin: 0 0 4px; border-radius: 3px;
+    border-left: 4px solid var(--rule); background: rgba(255,255,255,0.45);
   }
   .results-trail li.heat-burning { border-left-color: var(--burning); background: #ffedd5; }
   .results-trail li.heat-hot { border-left-color: var(--hot); background: #ffedd5; }
@@ -364,15 +449,15 @@
   .results-trail li.heat-freezing { border-left-color: var(--freezing); background: #e0e7ff; }
   .results-trail li.heat-ok { border-left-color: var(--ok); background: #dcfce7; }
   .crowd-line {
-    text-align: center; font-size: 18px; line-height: 1.35; padding: 8px 4px;
+    text-align: center; font-size: 16px; line-height: 1.35; padding: 8px 4px;
     font-weight: 600;
   }
-  .crowd-line.muted { color: var(--muted); font-weight: 400; font-size: 16px; }
+  .crowd-line.muted { color: var(--muted); font-weight: 400; font-size: 15px; }
   .city-card .city-name {
-    font-size: 26px; font-weight: 800; margin: 0 0 12px; text-align: center;
+    font-size: 24px; font-weight: 800; margin: 0 0 12px; text-align: center;
   }
   .city-card .fact {
-    margin: 0 0 12px; font-size: 15px; line-height: 1.45;
+    margin: 0 0 12px; font-size: 14px; line-height: 1.45;
     padding-left: 12px; border-left: 3px solid var(--tip);
   }
   .city-card .fact .label {
@@ -380,7 +465,7 @@
     color: var(--muted); margin-bottom: 4px; font-family: ui-sans-serif, system-ui, sans-serif;
   }
   .streak-soft {
-    text-align: center; font-size: 15px; color: var(--muted); margin: 4px 0 16px;
+    text-align: center; font-size: 14px; color: var(--muted); margin: 4px 0 14px;
     font-style: italic;
   }
   .end-bar {
@@ -396,20 +481,20 @@
       align-items: center;
       padding:
         max(8px, env(safe-area-inset-top, 0px))
-        max(8px, env(safe-area-inset-right, 0px))
+        max(10px, env(safe-area-inset-right, 0px))
         max(8px, env(safe-area-inset-bottom, 0px))
-        max(8px, env(safe-area-inset-left, 0px));
+        max(10px, env(safe-area-inset-left, 0px));
     }
-    .results-stage { max-width: none; width: 100%; max-height: 100%; }
-    .results-frame { border-radius: 12px; padding: 12px 8px 14px; }
-    .results-slot { margin: 2px 8px 0; height: 20px; }
-    .results-slot::before { left: -6px; right: -6px; top: -4px; bottom: -4px; }
+    .results-stage { max-width: 320px; width: 100%; max-height: 100%; }
+    .results-frame { border-radius: 12px 12px 8px 8px; padding: 8px 6px 12px; }
+    .results-slot { margin: 0 4px; height: 24px; }
+    .results-slot::before { left: -5px; right: -5px; top: -6px; bottom: -5px; }
     .results-printer {
-      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 92px);
-      margin-top: -11px;
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 104px);
+      margin-top: -13px;
     }
-    .results-sheet { margin: 0 4px; padding: 26px 14px 22px; border-radius: 0 0 8px 8px; }
-    .results-headline { font-size: 28px; }
+    .results-sheet { margin: 0 6px; padding: 20px 12px 18px; }
+    .results-headline { font-size: 26px; }
     .print-skip { min-height: 48px; font-size: 14px; }
     .results-sheet .replay-print { min-height: 48px; }
   }
@@ -444,6 +529,9 @@
 <div class="results-overlay" id="results" hidden>
   <div class="results-stage">
     <div class="results-frame">
+      <div class="results-register-bar" aria-hidden="true">
+        <span class="results-brand-stamp">THE REGISTER</span>
+      </div>
       <div class="results-slot" aria-hidden="true"></div>
       <div class="results-printer" id="resultsPrinter">
         <div class="results-sheet" id="resultsSheet"></div>
@@ -1948,7 +2036,12 @@ function renderResults() {
   }).join("");
 
   document.getElementById("resultsSheet").innerHTML = `
-    <div class="print-status-wrap"><span class="print-status" id="printStatus">Printing</span></div>
+    <div class="receipt-tab-head">
+      <div class="receipt-tab-stars">*** FINAL TAB ***</div>
+      <div class="receipt-tab-date">${fmtDate(DAY)}</div>
+    </div>
+    <div class="receipt-cut" aria-hidden="true"></div>
+    <div class="print-status-wrap"><span class="print-status" id="printStatus">PRINTING</span></div>
     <div class="results-kicker">Final results</div>
     <h2 class="results-headline ${state.won ? "win" : "lose"}">${headline}</h2>
     <p class="results-sub">${sub}</p>
@@ -2061,7 +2154,7 @@ function finishPrint(instant) {
   }
   printer.classList.remove("instant");
   if (status) {
-    status.textContent = "Printed";
+    status.textContent = "PRINTED";
     status.classList.add("show");
   }
   if (skipBtn) skipBtn.hidden = true;
@@ -2093,7 +2186,7 @@ function startPrintFeed() {
       printer.style.height = "auto";
     }
     if (status) {
-      status.textContent = "Printed";
+      status.textContent = "PRINTED";
       status.classList.add("show");
     }
     if (skipBtn) skipBtn.hidden = true;
@@ -2109,7 +2202,7 @@ function startPrintFeed() {
   // Clip opens to target height immediately; paper feeds via transform
   printer.style.height = printerTargetPx(printer, sheet) + "px";
   if (status) {
-    status.textContent = "Printing";
+    status.textContent = "PRINTING";
     status.classList.add("show");
   }
   // Force starting pose (hidden above slot), then feed down
