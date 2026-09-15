@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: et-todayKey-2026-09-15 -->
+<!-- pages-bust: et-todayKey-2026-09-15-madrid-rome-helped-v10 -->
 <meta name="description" content="One stranger's receipt. One tip. 6 tries. Hotter or colder. Can you beat the crowd?" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -520,8 +520,8 @@
   <div class="card">
     <div class="mast" style="margin-bottom:8px">Tonight's paper</div>
     <h2>You're holding a stranger's tab</h2>
-    <p>One tip from a local paper. One receipt in USD. The mystery city could be <strong>anywhere in the world</strong>.</p>
-    <p>You start with a <strong>convenience-store run</strong> — snacks, drinks, everyday shelf stuff from that city.</p>
+    <p>One tip from the local paper. One receipt, converted to USD. The mystery city could be <strong>anywhere in the world</strong>.</p>
+    <p>You start with a <strong>convenience-store run</strong> from the mystery city — snacks, drinks, everyday shelf stuff.</p>
     <p>Two wrong guesses and the tab becomes <strong>lunch</strong>. Two more and it becomes <strong>dinner with a drink</strong>.</p>
     <p><strong>Guess the city.</strong> Six tries. Hotter or colder. No map.</p>
     <p>Every price is shown in USD so cities stay comparable.</p>
@@ -550,7 +550,7 @@
    Local paper lines are fair place clues, not fake news spirals. */
 const CITIES = (window.REGISTER_CITIES && window.REGISTER_CITIES.length)
   ? window.REGISTER_CITIES
-  : [["Tokyo",35.68,139.69],["Hiroshima",34.39,132.46],["Reykjavik",64.15,-21.94],["Bangkok",13.76,100.5],["São Paulo",-23.55,-46.63],["New York",40.71,-74.01],["Melbourne",-37.81,144.96],["Dubai",25.2,55.27],["Grenoble",45.19,5.72],["Aachen",50.78,6.08],["Paris",48.86,2.35],["London",51.51,-0.13]];
+  : [["Tokyo",35.68,139.69],["Hiroshima",34.39,132.46],["Reykjavik",64.15,-21.94],["Madrid",40.42,-3.70],["São Paulo",-23.55,-46.63],["New York",40.71,-74.01],["Melbourne",-37.81,144.96],["Dubai",25.2,55.27],["Rome",41.90,12.50],["Aachen",50.78,6.08],["Paris",48.86,2.35],["London",51.51,-0.13]];
 
 const DAYS = {
   "2026-09-13": {
@@ -650,33 +650,33 @@ const DAYS = {
     ]
   },
   "2026-09-16": {
-    city: "Bangkok",
+    city: "Madrid",
     currency: "USD",
-    paper: "The elevated train over the wet shopping strip slowed again after the rain.",
-    why: "The Skytrain was the fair clue. Dinner was street noodles and a beer.",
-    funFact: "Bangkok's BTS Skytrain rides above wet markets and flood-prone sois — after rain, the elevated line is still how the city keeps moving.",
-    lifeBite: "Fancy convenience cheese and macarons, then pad thai for pocket change and boat noodles at night — street food stays startlingly cheap next to supermarket imports.",
-    priceContext: "Convenience haul about $16; night stall dinner about $6 USD.",
+    paper: "The cercanías still jammed before kickoff — take the metro if you can.",
+    why: "The cercanías crush was the fair clue. Dinner was tapas and a caña.",
+    funFact: "Madrid's cercanías and metro keep the derby and late-night bar crawl moving. A menú del día and a cold caña are still the city's everyday rhythm.",
+    lifeBite: "Corner-shop Spanish staples in the morning, a menú del día at lunch, then tortilla and a caña at a neighborhood bar — classic Madrileño cadence.",
+    priceContext: "Corner shop about $12; tapas dinner with a caña about $22 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "7-counter",
-        lines: [["triple macarons creamy", "1.37"], ["shredded cheese blend", "6.35"], ["emmental block", "7.15"], ["pistachio milk", "0.70"]],
-        total: "15.57",
+        shop: "corner shop",
+        lines: [["gazpacho brick", "2.40"], ["patatas fritas bag", "1.65"], ["jamón serrano pack", "4.85"], ["Aquarius, bottle", "1.90"], ["Magnum classic", "2.15"]],
+        total: "12.95",
         source: "real prices · converted to USD"
       },
       {
         label: "lunch",
-        shop: "soi stall",
-        lines: [["pad thai", "1.82"], ["iced tea", "0.61"]],
-        total: "2.43",
+        shop: "menú del día",
+        lines: [["menú del día", "14.20"], ["café con leche", "1.85"]],
+        total: "16.05",
         source: "real prices · converted to USD"
       },
       {
         label: "dinner",
-        shop: "night stall",
-        lines: [["boat noodles", "2.43"], ["grilled pork skewer", "1.22"], ["Chang, small bottle", "2.13"]],
-        total: "5.78",
+        shop: "bar de barrio",
+        lines: [["tortilla de patatas", "8.50"], ["jamón plate, small", "7.20"], ["caña", "2.80"], ["aceitunas", "2.40"]],
+        total: "20.90",
         source: "real prices · converted to USD"
       },
     ]
@@ -810,33 +810,33 @@ const DAYS = {
     ]
   },
   "2026-09-21": {
-    city: "Grenoble",
+    city: "Rome",
     currency: "USD",
-    paper: "The university tram still fills before lectures.",
-    why: "The tram letter was the fair clue. Dinner was alpine-city bistro.",
-    funFact: "Grenoble is France's alpine university city. Tartiflette and génépi are Savoy comfort markers — cheese, potatoes, and a mountain digestif.",
-    lifeBite: "Bio-aisle yogurt and olive oil, a formule midi lunch, then tartiflette with Savoie wine — student-city alpine rhythm.",
-    priceContext: "Bio aisle about $26; bistro dinner about $38 USD.",
+    paper: "The neighborhood tram still rattles past the morning market stalls.",
+    why: "The market tram was the fair clue. Dinner was carbonara and a glass of wine.",
+    funFact: "Rome's neighborhood trams and open markets keep daily life off the tourist grid. Pizza al taglio and a late carbonara are still the city's weekday defaults.",
+    lifeBite: "A corner-bar cornetto and coffee, pizza al taglio at lunch, then carbonara with house wine — a Roman neighborhood rhythm.",
+    priceContext: "Corner bar about $6; trattoria dinner about $28 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "bio aisle",
-        lines: [["sheep yogurt 4-pack", "4.07"], ["soy drink 1L", "1.02"], ["coconut rice drink", "1.73"], ["cassoulet tray", "4.53"], ["olive oil", "14.19"]],
-        total: "25.54",
+        shop: "corner bar",
+        lines: [["cornetto, plain", "1.40"], ["cappuccino", "1.60"], ["acqua naturale", "1.10"], ["taralli bag", "2.20"]],
+        total: "6.30",
         source: "real prices · converted to USD"
       },
       {
         label: "lunch",
-        shop: "formule midi",
-        lines: [["plat du jour", "16.85"], ["espresso", "1.74"]],
-        total: "18.59",
+        shop: "pizza al taglio",
+        lines: [["pizza al taglio, two slices", "6.50"], ["acqua frizzante", "1.80"]],
+        total: "8.30",
         source: "real prices · converted to USD"
       },
       {
         label: "dinner",
-        shop: "bistro",
-        lines: [["tartiflette", "22.07"], ["vin de savoie, glass", "7.55"], ["génépi", "8.13"]],
-        total: "37.75",
+        shop: "trattoria",
+        lines: [["carbonara", "14.50"], ["house red, glass", "5.50"], ["bruschetta, two", "5.20"], ["acqua", "2.00"]],
+        total: "27.20",
         source: "real prices · converted to USD"
       },
     ]
@@ -2522,9 +2522,9 @@ const help = document.getElementById("help");
 document.getElementById("helpOpen").onclick = () => { help.hidden = false; };
 document.getElementById("helpClose").onclick = () => {
   help.hidden = true;
-  localStorage.setItem(KEY + "-helped-v9", "1");
+  localStorage.setItem(KEY + "-helped-v10", "1");
 };
-if (!localStorage.getItem(KEY + "-helped-v9")) help.hidden = false;
+if (!localStorage.getItem(KEY + "-helped-v10")) help.hidden = false;
 
 render();
 // Returning player who already finished: open Results as primary
