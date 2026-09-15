@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: og-v2-addictive-preview-2026-09-14 -->
+<!-- pages-bust: miles-distance-2026-09-15 -->
 <meta name="description" content="One stranger's receipt. One tip. 6 tries. Hotter or colder. Can you beat the crowd?" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -1905,10 +1905,11 @@ function heat(km) {
   return { t: "Freezing", cls: "", key: "freezing" };
 }
 
-function fmtKm(km) {
-  if (km < 1) return "0 km";
-  if (km < 10) return km.toFixed(1) + " km";
-  return Math.round(km).toLocaleString("en-US") + " km";
+function fmtMi(km) {
+  const mi = km * 0.621371;
+  if (mi < 1) return "0 mi";
+  if (mi < 10) return mi.toFixed(1) + " mi";
+  return Math.round(mi).toLocaleString("en-US") + " mi";
 }
 
 function loadState(day) {
@@ -2026,7 +2027,7 @@ function heatBannerHTML(g, pulse) {
   return `<div class="heat-banner heat-${h.key}${pulseCls}" id="heatBanner">
     <div class="hb-city">${g.name}</div>
     <div class="hb-word">${h.t}</div>
-    <div class="hb-dist">${g.ok ? "That's the city" : fmtKm(g.km) + " away"}</div>
+    <div class="hb-dist">${g.ok ? "That's the city" : fmtMi(g.km) + " away"}</div>
   </div>`;
 }
 
@@ -2038,7 +2039,7 @@ function renderResults() {
     : `It was ${P.city} · ${n} guess${n === 1 ? "" : "es"}`;
   const trail = state.guesses.map(g => {
     const h = g.ok ? { t: "yes", key: "ok" } : heat(g.km);
-    return `<li class="heat-${h.key}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}${g.ok ? "" : " · " + fmtKm(g.km)}</li>`;
+    return `<li class="heat-${h.key}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}${g.ok ? "" : " · " + fmtMi(g.km)}</li>`;
   }).join("");
 
   document.getElementById("resultsSheet").innerHTML = `
@@ -2333,7 +2334,7 @@ function render() {
   const log = state.guesses.map((g, i) => {
     const h = g.ok ? { t: "yes", key: "ok" } : heat(g.km);
     const latest = (i === lastIdx && justGuessed) ? " latest" : "";
-    return `<li class="heat-${h.key}${latest}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}${g.ok ? "" : " · " + fmtKm(g.km)}</li>`;
+    return `<li class="heat-${h.key}${latest}"><strong>${g.name}</strong> — ${g.ok ? "yes" : h.t}${g.ok ? "" : " · " + fmtMi(g.km)}</li>`;
   }).join("");
 
   let banner = "";
