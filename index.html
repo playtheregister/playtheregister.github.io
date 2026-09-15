@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: et-todayKey-2026-09-14 -->
+<!-- pages-bust: et-todayKey-2026-09-15 -->
 <meta name="description" content="One stranger's receipt. One tip. 6 tries. Hotter or colder. Can you beat the crowd?" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -520,11 +520,11 @@
   <div class="card">
     <div class="mast" style="margin-bottom:8px">Tonight's paper</div>
     <h2>You're holding a stranger's tab</h2>
-    <p>One Tip from the local paper. One receipt converted into dollars. Somewhere in the world, that was lunch.</p>
-    <p><strong>Every price is shown in USD.</strong> Real local baskets from Open Prices, auto-exchanged so a snack in Tokyo and a snack in São Paulo read on the same scale.</p>
-    <p>Two wrong guesses and the tab becomes <strong>lunch</strong>. Two more and it becomes <strong>dinner with a drink</strong>, something that actually belongs to that city.</p>
+    <p>One tip from a local paper. One receipt in USD. The mystery city could be <strong>anywhere in the world</strong>.</p>
+    <p>You start with a <strong>convenience-store run</strong> — snacks, drinks, everyday shelf stuff from that city.</p>
+    <p>Two wrong guesses and the tab becomes <strong>lunch</strong>. Two more and it becomes <strong>dinner with a drink</strong>.</p>
     <p><strong>Guess the city.</strong> Six tries. Hotter or colder. No map.</p>
-    
+    <p>Every price is shown in USD so cities stay comparable.</p>
     <button class="go" type="button" id="helpClose">Open today's paper</button>
   </div>
 </div>
@@ -2522,9 +2522,9 @@ const help = document.getElementById("help");
 document.getElementById("helpOpen").onclick = () => { help.hidden = false; };
 document.getElementById("helpClose").onclick = () => {
   help.hidden = true;
-  localStorage.setItem(KEY + "-helped-v8", "1");
+  localStorage.setItem(KEY + "-helped-v9", "1");
 };
-if (!localStorage.getItem(KEY + "-helped-v8")) help.hidden = false;
+if (!localStorage.getItem(KEY + "-helped-v9")) help.hidden = false;
 
 render();
 // Returning player who already finished: open Results as primary
