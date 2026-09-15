@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: miles-distance-2026-09-15 -->
+<!-- pages-bust: et-todayKey-2026-09-14 -->
 <meta name="description" content="One stranger's receipt. One tip. 6 tries. Hotter or colder. Can you beat the crowd?" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -1852,8 +1852,18 @@ function stageIndex(st) {
 }
 
 function todayKey() {
-  const iso = new Date().toISOString().slice(0, 10);
-  return DAYS[iso] ? iso : "2026-09-15";
+  const iso = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric", month: "2-digit", day: "2-digit"
+  }).format(new Date()); // YYYY-MM-DD in Eastern Time
+  if (DAYS[iso]) return iso;
+  const keys = Object.keys(DAYS).sort();
+  let best = null;
+  for (const k of keys) {
+    if (k <= iso) best = k;
+    else break;
+  }
+  return best || keys[0];
 }
 
 function fmtDate(iso) {
