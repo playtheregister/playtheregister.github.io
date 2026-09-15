@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>The Register</title>
-<!-- pages-bust: et-todayKey-2026-09-15-reykjavik-receipt-v11 -->
+<!-- pages-bust: et-todayKey-2026-09-15-reykjavik-calendar-v12 -->
 <meta name="description" content="One stranger's receipt. One tip. 6 tries. Hotter or colder. Can you beat the crowd?" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Register" />
@@ -564,7 +564,7 @@ const DAYS = {
     stages: [
       {
         label: "convenience",
-        shop: "rewe basket",
+        shop: "grocery basket",
         lines: [["edamame", "1.96"], ["chickpeas", "0.92"], ["hummus pine nuts", "1.96"], ["banana yogurt", "0.80"], ["decaffeinated coffee", "11.61"], ["spelt bread", "2.89"]],
         total: "20.14",
         source: "real prices · converted to USD"
@@ -687,14 +687,14 @@ const DAYS = {
     paper: "The yellow metro line jammed before the derby crowd spilled out.",
     why: "The metro derby line was the fair clue. Dinner was a chopp and a plate.",
     funFact: "São Paulo's yellow metro line and derby days pack platforms citywide. Botecos — neighborhood bars with coxinha and chopp — are the everyday hangout.",
-    lifeBite: "Atacado staples in the morning, pão de queijo at the padaria, then coxinha and draft beer at a boteco — a very Paulista rhythm.",
-    priceContext: "Grocery lane about $7; boteco dinner about $10 USD.",
+    lifeBite: "Guaraná, paçoca, and mortadella from the mercado, pão de queijo at the padaria, then coxinha and draft beer at a boteco — a very Paulista rhythm.",
+    priceContext: "Mercado run about $9; boteco dinner about $10 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "atacado lane",
-        lines: [["golden flaxseed 200g", "1.28"], ["black pepper 50g", "2.73"], ["thyme flakes", "0.70"], ["integral rice", "1.36"], ["fresh milk 1L", "1.35"]],
-        total: "7.42",
+        shop: "mercado aisle",
+        lines: [["guaraná can", "1.45"], ["paçoca sweets", "1.80"], ["mortadella pack", "2.90"], ["french rolls, six", "1.60"], ["chocolate milk carton", "1.10"]],
+        total: "8.85",
         source: "real prices · converted to USD"
       },
       {
@@ -719,14 +719,14 @@ const DAYS = {
     paper: "Weekend work on the crosstown train again. Bring a book.",
     why: "The L train was the fair clue. Dinner was a slice city night.",
     funFact: "The L train's weekend work is a New York cliché. A plain slice remains the city's unit of lunch — cheap, fast, and everywhere.",
-    lifeBite: "Warehouse club snacks run high, a corner slice and soda cover lunch, then pepperoni with a Brooklyn lager — classic NYC casual.",
-    priceContext: "Warehouse sample about $37; late counter dinner about $22.50 USD.",
+    lifeBite: "Bodega bagels and a black-and-white cookie, a corner slice and soda for lunch, then pepperoni with a local lager — classic NYC casual.",
+    priceContext: "Bodega run about $12; late counter dinner about $22.50 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "warehouse sample",
-        lines: [["mac & cheese", "10.99"], ["tonkotsu ramen", "9.29"], ["shrimp chips", "8.99"], ["sweet & spicy puffs", "7.69"]],
-        total: "36.96",
+        shop: "bodega counter",
+        lines: [["everything bagels, two", "3.50"], ["cream cheese", "4.29"], ["black-and-white cookie", "2.75"], ["arizona iced tea", "1.25"]],
+        total: "11.79",
         source: "real prices · converted to USD"
       },
       {
@@ -739,7 +739,7 @@ const DAYS = {
       {
         label: "dinner",
         shop: "late counter",
-        lines: [["pepperoni slice", "4.50"], ["brooklyn lager", "8.00"], ["whiskey shot", "10.00"]],
+        lines: [["pepperoni slice", "4.50"], ["local lager", "8.00"], ["whiskey shot", "10.00"]],
         total: "22.50",
         source: "real prices · converted to USD"
       },
@@ -751,14 +751,14 @@ const DAYS = {
     paper: "The coastal tram was still packed after the match.",
     why: "The tram number was the fair clue. Dinner was a parma and a pint.",
     funFact: "Coastal trams after the match are a Melbourne weekend cliché. Chicken parma — crumbed, sauced, cheesed — is still pub canon.",
-    lifeBite: "Suburban market staples, a cafe parma for lunch, then pub parma with a pint — Melburnians do comfort food hard.",
-    priceContext: "Market basket about $14; pub dinner about $38 USD.",
+    lifeBite: "Milk-bar meat pie, dim sims, and iced coffee, a cafe parma for lunch, then pub parma with a pint — Melburnians do comfort food hard.",
+    priceContext: "Milk bar about $16; pub dinner about $38 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "suburban market",
-        lines: [["smooth peanut butter", "4.29"], ["vanilla custard", "3.28"], ["wild pink salmon", "2.31"], ["orange juice", "1.80"], ["mango drink", "2.23"]],
-        total: "13.91",
+        shop: "suburban milk bar",
+        lines: [["meat pie", "5.20"], ["dim sims, pack", "4.10"], ["iced coffee carton", "3.40"], ["Violet Crumble", "2.80"]],
+        total: "15.50",
         source: "real prices · converted to USD"
       },
       {
@@ -783,14 +783,14 @@ const DAYS = {
     paper: "The metro to the big mall by the ski slope is still the weekend default.",
     why: "The metro stop was the fair clue. Dinner was a mixed grill and a mocktail, or a hotel pint.",
     funFact: "The metro stop for the mall with an indoor ski slope is a weekend default. Alcohol stays limited to hotels and licensed venues.",
-    lifeBite: "Fresh crêpes and chilled hibiscus, shawarma for lunch, mixed grill with juice or a hotel lager — mall-city everyday.",
+    lifeBite: "Dates, labneh, and karak tea, shawarma for lunch, mixed grill with juice or a hotel lager — mall-city everyday.",
     priceContext: "Fresh counter about $14; grill dinner about $35 USD.",
     stages: [
       {
         label: "convenience",
         shop: "fresh counter",
-        lines: [["caramel crêpes", "3.26"], ["chocolate crêpes", "2.99"], ["hibiscus tea chilled", "5.43"], ["mango passion pop", "2.59"]],
-        total: "14.27",
+        lines: [["dates box", "4.80"], ["labneh cup", "3.20"], ["karak tea", "2.40"], ["pistachio baklava, two", "3.90"]],
+        total: "14.30",
         source: "real prices · converted to USD"
       },
       {
@@ -1040,21 +1040,21 @@ const DAYS = {
     paper: "Bike rush still floods the bridge before the harbour baths open.",
     why: "The harbour bike bridge was the fair clue. Dinner was smørrebrød and aquavit.",
     funFact: "Copenhagen's harbour bridges carry more bikes than cars at peak. Smørrebrød — open-faced rye sandwiches — and aquavit are old-school Danish table markers.",
-    lifeBite: "Corner bakery cardamom bun, a hot dog lunch, then classic smørrebrød with aquavit — Nordic casual.",
-    priceContext: "Bakery stop about $10; restaurant dinner about $48 USD.",
+    lifeBite: "Corner bakery cardamom bun and rugbrød, a remoulade hot dog lunch, then classic smørrebrød with aquavit — Nordic casual.",
+    priceContext: "Bakery stop about $14; restaurant dinner about $51 USD.",
     stages: [
       {
         label: "convenience",
         shop: "corner bakery",
-        lines: [["cardamom bun", "3.80"], ["filter coffee", "3.20"], ["apple juice", "2.90"]],
-        total: "9.90",
+        lines: [["cardamom bun", "3.80"], ["rugbrød loaf", "4.20"], ["leverpostej tub", "3.50"], ["cocoa milk", "2.40"]],
+        total: "13.90",
         source: "real prices · converted to USD"
       },
       {
         label: "lunch",
         shop: "pølsevogn",
-        lines: [["hot dog with everything", "6.50"], ["soda", "3.20"]],
-        total: "9.70",
+        lines: [["hot dog, remoulade", "6.90"], ["soda", "3.20"]],
+        total: "10.10",
         source: "real prices · converted to USD"
       },
       {
@@ -1072,14 +1072,14 @@ const DAYS = {
     paper: "The elevated loop still screeches around the downtown rectangle.",
     why: "The L loop was the fair clue. Dinner was a deep-dish night and a local lager.",
     funFact: "Chicago's Loop is named for the elevated tracks that circle downtown. Deep-dish pizza remains the tourist-vs-local debate forever.",
-    lifeBite: "Warehouse snacks, an Italian beef for lunch, then deep-dish with a Midwestern lager — lake-city classic.",
-    priceContext: "Warehouse sample about $18; pizzeria dinner about $36 USD.",
+    lifeBite: "Giardiniera and cheddar-caramel popcorn from the corner, an Italian beef for lunch, then deep-dish with a Midwestern lager — lake-city classic.",
+    priceContext: "Corner market about $18; pizzeria dinner about $36 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "warehouse sample",
-        lines: [["pretzel thins", "4.99"], ["cheese curls", "5.49"], ["sparkling water 8-pack", "7.29"]],
-        total: "17.77",
+        shop: "corner market",
+        lines: [["cheddar-caramel popcorn", "6.49"], ["giardiniera jar", "4.99"], ["Italian ice cup", "3.25"], ["poppy-seed buns, two", "2.80"]],
+        total: "17.53",
         source: "real prices · converted to USD"
       },
       {
@@ -1141,7 +1141,7 @@ const DAYS = {
     stages: [
       {
         label: "convenience",
-        shop: "cold storage",
+        shop: "chiller aisle",
         lines: [["kaya toast pack", "3.40"], ["bandung drink", "2.10"], ["prawn crackers", "2.80"], ["yogurt drink", "1.90"], ["milo packet", "1.60"]],
         total: "11.80",
         source: "real prices · converted to USD"
@@ -1233,13 +1233,13 @@ const DAYS = {
     why: "The matatu roundabout was the fair clue. Dinner was nyama choma and Tusker.",
     funFact: "Nairobi's matatus — decorated minibuses — are the city's loud circulatory system. Nyama choma (grilled meat) with Tusker lager is the weekend default.",
     lifeBite: "Duka mandazi and soda, a chapati-bean lunch, then grilled goat with Tusker — capital-city night.",
-    priceContext: "Duka snacks about $4; choma dinner about $18 USD.",
+    priceContext: "Duka snacks about $4; choma dinner about $16 USD.",
     stages: [
       {
         label: "convenience",
         shop: "duka counter",
-        lines: [["mandazi, three", "1.20"], ["soda bottle", "0.90"], ["groundnuts pack", "1.10"], ["biscuit pack", "0.80"]],
-        total: "4.00",
+        lines: [["mandazi, three", "1.20"], ["soda bottle", "0.90"], ["groundnuts pack", "1.10"], ["chai mix", "1.00"]],
+        total: "4.20",
         source: "real prices · converted to USD"
       },
       {
@@ -1461,7 +1461,7 @@ const DAYS = {
     stages: [
       {
         label: "convenience",
-        shop: "billa aisle",
+        shop: "grocery aisle",
         lines: [["Manner wafers", "2.40"], ["Almdudler", "1.90"], ["Apfelstrudel pack", "3.80"], ["yogurt", "1.50"], ["bread rolls", "1.60"]],
         total: "11.20",
         source: "real prices · converted to USD"
@@ -1488,14 +1488,14 @@ const DAYS = {
     paper: "The freeway exit for the Hollywood sign overlook still backs up at golden hour.",
     why: "The overlook exit was the fair clue. Dinner was a taco truck night and a local IPA.",
     funFact: "LA's canyon overlooks for the Hollywood sign jam at sunset. Taco trucks and craft IPAs are the city's true civic religion — not the studios.",
-    lifeBite: "Gas-station snacks, a burrito lunch, then al pastor tacos with an IPA — sprawl-city night.",
-    priceContext: "Gas mart about $10; taco dinner about $24 USD.",
+    lifeBite: "Kombucha, sushi pack, and extra-hot chips, a burrito lunch, then al pastor tacos with an IPA — sprawl-city night.",
+    priceContext: "Corner market about $18; taco dinner about $25 USD.",
     stages: [
       {
         label: "convenience",
-        shop: "gas mart",
-        lines: [["trail mix", "3.49"], ["cold brew can", "3.29"], ["jerky", "4.99"]],
-        total: "11.77",
+        shop: "corner market",
+        lines: [["sushi roll pack", "6.99"], ["kombucha bottle", "4.49"], ["extra-hot chips", "2.79"], ["cold brew can", "3.29"]],
+        total: "17.56",
         source: "real prices · converted to USD"
       },
       {
@@ -1520,14 +1520,14 @@ const DAYS = {
     paper: "Scooters still flood the lake loop before the weekend night market opens.",
     why: "The lake scooter loop was the fair clue. Dinner was bun cha and a bia hơi.",
     funFact: "Hoàn Kiếm Lake is Hanoi's evening orbit. Bún chả — grilled pork with noodles — and bia hơi (fresh draught beer) are the city's cheap night out.",
-    lifeBite: "Corner yogurt and snacks, a phở lunch, then bún chả with bia hơi — Old Quarter rhythm.",
-    priceContext: "Corner shop about $4; street dinner about $8 USD.",
+    lifeBite: "Egg coffee and dried squid from the corner, a phở lunch, then bún chả with bia hơi — Old Quarter rhythm.",
+    priceContext: "Corner shop about $5; street dinner about $8 USD.",
     stages: [
       {
         label: "convenience",
         shop: "corner shop",
-        lines: [["yogurt cup", "0.70"], ["shrimp chips", "0.90"], ["green tea bottle", "0.80"], ["moon cake mini", "1.20"]],
-        total: "3.60",
+        lines: [["egg coffee", "1.80"], ["dried squid", "1.40"], ["shrimp chips", "0.90"], ["green tea bottle", "0.80"]],
+        total: "4.90",
         source: "real prices · converted to USD"
       },
       {
@@ -1654,8 +1654,8 @@ const DAYS = {
       {
         label: "convenience",
         shop: "kiosk",
-        lines: [["tamr hindi drink", "0.70"], ["biscuit pack", "0.60"], ["roasted seeds", "0.80"], ["yogurt", "0.70"]],
-        total: "2.80",
+        lines: [["tamr hindi drink", "0.70"], ["dates pack", "0.90"], ["roasted seeds", "0.80"], ["biscuit pack", "0.60"]],
+        total: "3.00",
         source: "real prices · converted to USD"
       },
       {
@@ -1681,13 +1681,13 @@ const DAYS = {
     why: "The diagonal avenue was the fair clue. Dinner was a vermut hour and paella for one.",
     funFact: "Barcelona's Avinguda Diagonal cuts the Eixample grid. Vermut hour — fortified wine with olives — is the city's pre-dinner social glue.",
     lifeBite: "Bodega snacks, a bocadillo lunch, then vermut and seafood rice — grid-city evening.",
-    priceContext: "Bodega about $8; tapas dinner about $34 USD.",
+    priceContext: "Bodega about $9; tapas dinner about $32 USD.",
     stages: [
       {
         label: "convenience",
         shop: "bodega",
-        lines: [["patatas chips", "1.80"], ["cava small", "3.40"], ["olives tin", "1.60"], ["chocolate", "1.50"]],
-        total: "8.30",
+        lines: [["patatas chips", "1.80"], ["cava small", "3.40"], ["olives tin", "1.60"], ["fuet stick", "2.40"]],
+        total: "9.20",
         source: "real prices · converted to USD"
       },
       {
